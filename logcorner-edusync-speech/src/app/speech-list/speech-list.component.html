@@ -1,0 +1,43 @@
+<div>
+  <!--   <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> -->
+  
+    <div class="card">
+      <h3 class="card-header">
+         Speeches
+        <a [routerLink]="['/speeches', 'new']" class="btn btn-sm btn-primary float-right" [ngbTooltip]="ttContent"
+          placement="left" tooltipClass="custom-tooltip">Add New Speech</a>
+        <ng-template #ttContent>
+          Log a new <strong class="text-primary text-uppercase">workout</strong> into your list
+        </ng-template>
+  
+      </h3>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+           <!--  <ngb-pagination [collectionSize]="50" boundaryLinks="true"
+                [pageSize]="pageSize" maxSize="5" rotate="true" [(page)]="currPage" (pageChange)="refreshGrid()"></ngb-pagination> -->
+          </div>
+        </div>
+  
+        <table class="table table-striped">
+          <thead>
+            <th>Title</th>
+            <th>Type</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of speeches">
+              <td>
+                  <a href="{{entry.url}}" target="blanck">{{entry.title}}</a>
+              </td>
+              <td>{{entry.type.name}}</td>
+              <td>
+               
+              </td>
+              </tr>
+          </tbody>
+        </table>
+  
+      </div>
+    </div>
+   </div>

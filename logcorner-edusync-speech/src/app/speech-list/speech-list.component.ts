@@ -24,8 +24,4 @@ export class SpeechListComponent implements OnInit {
         console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
       });
   }
-
-  refreshGrid(): void {
-    this.getSpeeches();
-   }
 }

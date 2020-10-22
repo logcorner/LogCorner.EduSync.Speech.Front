@@ -1,6 +1,5 @@
 <div>
-  <!--   <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> -->
-  
+   
     <div class="card">
       <h3 class="card-header">
          Speeches
@@ -14,23 +13,23 @@
       <div class="card-body">
         <div class="row">
           <div class="col">
-           <!--  <ngb-pagination [collectionSize]="50" boundaryLinks="true"
-                [pageSize]="pageSize" maxSize="5" rotate="true" [(page)]="currPage" (pageChange)="refreshGrid()"></ngb-pagination> -->
           </div>
         </div>
   
         <table class="table table-striped">
           <thead>
             <th>Title</th>
+            <th>Url</th>
             <th>Type</th>
             <th></th>
           </thead>
           <tbody>
-            <tr *ngFor="let entry of speeches">
+            <tr *ngFor="let speech of speeches">
               <td>
-                  <a href="{{entry.url}}" target="blanck">{{entry.title}}</a>
+                  <a href="{{speech.url}}" target="blanck">{{speech.title}}</a>
               </td>
-              <td>{{entry.type.name}}</td>
+              <td>{{speech.url}}</td>
+              <td>{{speech.type}}</td>
               <td>
                
               </td>

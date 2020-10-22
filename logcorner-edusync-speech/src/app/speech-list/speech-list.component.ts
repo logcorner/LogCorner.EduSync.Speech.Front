@@ -10,6 +10,7 @@ import { SpeechService } from '../services/speech.service';
 export class SpeechListComponent implements OnInit {
 
   speeches: Speech[];
+  errorMessage: any;
    constructor(private speechService: SpeechService) { }
 
   ngOnInit(): void {
@@ -17,11 +18,14 @@ export class SpeechListComponent implements OnInit {
   }
 
   getSpeeches(): void {
-    this.speechService.get()
-    .subscribe(item =>
-      {
-        this.speeches = item;
-        console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
+    this.speechService.getSpeeches()
+      .subscribe({
+        next: (value: Speech[]) =>
+        {
+          this.speeches = value;
+          console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
+        },
+        error: err => this.errorMessage = err
       });
   }
 }

@@ -28,3 +28,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 npm install lodash ngx-loading --save
+npm install  --save bootstrap 
+npm install --save @ng-bootstrap/ng-bootstrap

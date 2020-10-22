@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SpeechListComponent } from './speech-list/speech-list.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpeechService } from './services/speech.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     NgbModule
   ],

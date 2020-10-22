@@ -10,17 +10,31 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class SpeechService {
 
+
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<Speech[]> {
+  getSpeeches(): Observable<Speech[]> {
     return this.http.get<Speech[]>(`${this.baseUrl}/speech`)
       .pipe(
-        tap(speeches => console.log(`fetched Speeches`, speeches)),
-        catchError(this.handleError('', [])));
-
+        tap(speeches => console.log(`fetched speeches`, speeches)),
+        catchError(this.handleError('getSpeeches', [])));
   }
+
+  getSpeech(id: string): Observable<Speech> {
+    return this.http.get<Speech>(`${this.baseUrl}/speech/${id}`)
+      .pipe(
+        tap(speeches => console.log(`fetched speech`, id, speeches)),
+        catchError(this.handleError('getSpeech', new Speech() )));
+  }
+
+  updateSpeech(speech: Speech): Observable<any> {
+    return this.http.put(`${this.baseUrl}/speech/${speech.id}`, speech)
+    .pipe(
+      tap(result => console.log(`update speech`, result)),
+      catchError(this.handleError('updateSpeech', new Speech() )));
+   }
 
   // tslint:disable-next-line: typedef
   private handleError<T>(operation = 'operation', result?: T)  {

@@ -20,16 +20,28 @@ export class SpeechEditComponent implements OnInit {
                 private fb: FormBuilder, private nav: Router, ) { }
 
   ngOnInit(): void {
-    this.router.params.subscribe(params => {
+     this.getSpeechTypes();
+     this.router.params.subscribe(params => {
       this.getSpeech(params.id);
-  });
+    });
 
-    this.speechForm = this.fb.group({
-    title: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(60)]],
-    description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(60)]],
-    url: ['', [Validators.required]],
-    type: [null, [Validators.required]]
-  });
+     this.speechForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(60)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+      url: ['', [Validators.required]],
+      type: [null, [Validators.required]]
+    });
+  }
+
+  getSpeechTypes(): void {
+    this.speechService.getSpeechTypes()
+    .subscribe({
+      next: (values: SpeechType[]) =>
+      {
+        this.speechTypes = values;
+      },
+      error: err => this.errorMessage = err
+    });
   }
   getSpeech(id: string): void {
     this.speechService.getSpeech(id)
@@ -41,6 +53,8 @@ export class SpeechEditComponent implements OnInit {
   displaySpeech(speech: Speech): void {
     console.log('**SpeechEditComponent::displaySpeech - ', speech);
     this.speech = speech;
+    const speechType = this.speechTypes?.find(x => x.value === this.speech.type.value);
+   
     if (this.speechForm) {
       this.speechForm.reset();
     }
@@ -51,7 +65,7 @@ export class SpeechEditComponent implements OnInit {
         title : speech.title,
         description: speech.description,
         url: speech.url,
-        type:  speech.type,
+        type: speechType !== undefined ? speechType : null
      }
    );
   }

@@ -166,6 +166,10 @@
   <br>Touched: {{ speechForm.touched }}
   <br>Valid: {{ speechForm.valid }}
   <br>Value: {{ speechForm.value | json }}
+  <br/>title : {{speechForm.get('title').errors | json }}
+  <br/>description : {{speechForm.get('description').errors | json }}
+  <br/>url : {{speechForm.get('url').errors | json }}
+  <br/>type : {{speechForm.get('type').errors | json }}
   <br>&nbsp;
   </div>
   

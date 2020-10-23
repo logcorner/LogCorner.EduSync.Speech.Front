@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { environment } from 'src/environments/environment.prod';
+import { SpeechType } from '../models/SpeechType';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,14 @@ export class SpeechService {
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
+
+  getSpeechTypes(): Observable<SpeechType[]> {
+    const url = `${this.baseUrl}/speech/types/`;
+    return this.http.get<SpeechType[]>(url)
+      .pipe(
+        tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
+        catchError(this.handleError('getSpeechTypes', [] )));
+   }
 
   getSpeeches(): Observable<Speech[]> {
     return this.http.get<Speech[]>(`${this.baseUrl}/speech`)

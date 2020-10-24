@@ -6,6 +6,7 @@ export class Speech {
   description: string;
   url: string;
   type: SpeechType;
+  version: number;
   constructor()
   {
   }

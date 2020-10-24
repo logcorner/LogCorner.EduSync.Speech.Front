@@ -9,12 +9,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpeechService } from './services/speech.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SpeechCreateComponent } from './speech-create/speech-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpeechListComponent,
     SpeechEditComponent,
+    SpeechCreateComponent,
   ],
   imports: [
     BrowserModule,

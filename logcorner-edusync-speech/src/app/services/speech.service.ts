@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
@@ -21,36 +21,44 @@ export class SpeechService {
     return this.http.get<SpeechType[]>(url)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
-        catchError(this.handleError('getSpeechTypes', [] )));
+        catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
    }
 
   getSpeeches(): Observable<Speech[]> {
     return this.http.get<Speech[]>(`${this.queryAPI}/speech`)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
-        catchError(this.handleError('getSpeeches', [])));
+        catchError(this.handleError<Speech[]>('getSpeeches')));
   }
 
   getSpeech(id: string): Observable<Speech> {
     return this.http.get<Speech>(`${this.queryAPI}/speech/${id}`)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
-        catchError(this.handleError('getSpeech', new Speech() )));
+        catchError(this.handleError<Speech>('getSpeech' )));
   }
 
   updateSpeech(speech: Speech): Observable<any> {
     return this.http.put(`${this.commandAPI}/speech`, speech)
     .pipe(
       tap(result => console.log(`update speech`, result)),
-      catchError(this.handleError('updateSpeech', new Speech() )));
+      catchError(this.handleError('updateSpeech' )));
    }
 
-  // tslint:disable-next-line: typedef
-  private handleError<T>(operation = 'operation', result?: T)  {
-    return (error: any): Observable<T> => {
+   createSpeech(speech: Speech): Observable<any> {
+       return this.http.post(`${this.commandAPI}/speech`, speech)
+       .pipe(
+        tap(result => console.log(`create speech`, result)),
+        catchError(this.handleError('createSpeech' )));
+  }
+
+  private handleError<T>(operation = 'operation'): any  {
+    return (error: HttpErrorResponse): Observable<T> => {
       console.error(error);
       console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
+     // return of(result as T);
+      const errorMessage = `${error.message} - ${JSON.stringify(error.error)}` ;
+      throw errorMessage;
     };
   }
 }

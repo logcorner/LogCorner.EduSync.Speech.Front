@@ -76,12 +76,14 @@ export class SpeechEditComponent implements OnInit {
       this.nav.navigate(['/speech']);
     });
   }
+
   get speechType(): any {
-	  	return this.speechForm.get('type');
+      return this.speechForm.get('type');
 	}
+
   onTypeChange(): void {
     const type: SpeechType = this.speechType.value;
     this.speech.type = type;
-		  console.log('onTypeChange Changed: ' + type.name);
+	  console.log(`onTypeChange Changed: ${type.name}`);
   }
 }

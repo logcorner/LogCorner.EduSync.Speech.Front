@@ -114,7 +114,7 @@
                 formControlName="type"
                 [ngClass]="{'is-invalid': (speechForm.get('type').touched ||
                 speechForm.get('type').dirty) &&
-                !speechForm.get('type').valid }"  >
+                !speechForm.get('type').valid }" (change)="onTypeChange()"  >
         
                 <option [ngValue]="null" disabled>Select a Type ...</option>
                 <option *ngFor="let item of speechTypes" [ngValue]="item">

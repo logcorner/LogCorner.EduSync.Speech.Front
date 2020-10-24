@@ -11,13 +11,13 @@ import { SpeechType } from '../models/SpeechType';
 })
 export class SpeechService {
 
-
-  private baseUrl = environment.baseUrl;
+  private queryAPI = environment.queryAPI;
+  private commandAPI = environment.commandAPI;
 
   constructor(private http: HttpClient) { }
 
   getSpeechTypes(): Observable<SpeechType[]> {
-    const url = `${this.baseUrl}/speech/types/`;
+    const url = `${this.queryAPI}/speech/types/`;
     return this.http.get<SpeechType[]>(url)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
@@ -25,21 +25,21 @@ export class SpeechService {
    }
 
   getSpeeches(): Observable<Speech[]> {
-    return this.http.get<Speech[]>(`${this.baseUrl}/speech`)
+    return this.http.get<Speech[]>(`${this.queryAPI}/speech`)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError('getSpeeches', [])));
   }
 
   getSpeech(id: string): Observable<Speech> {
-    return this.http.get<Speech>(`${this.baseUrl}/speech/${id}`)
+    return this.http.get<Speech>(`${this.queryAPI}/speech/${id}`)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
         catchError(this.handleError('getSpeech', new Speech() )));
   }
 
   updateSpeech(speech: Speech): Observable<any> {
-    return this.http.put(`${this.baseUrl}/speech/${speech.id}`, speech)
+    return this.http.put(`${this.commandAPI}/speech`, speech)
     .pipe(
       tap(result => console.log(`update speech`, result)),
       catchError(this.handleError('updateSpeech', new Speech() )));

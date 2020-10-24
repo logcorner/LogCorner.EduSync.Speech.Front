@@ -54,7 +54,7 @@ export class SpeechEditComponent implements OnInit {
     console.log('**SpeechEditComponent::displaySpeech - ', speech);
     this.speech = speech;
     const speechType = this.speechTypes?.find(x => x.value === this.speech.type.value);
-   
+
     if (this.speechForm) {
       this.speechForm.reset();
     }
@@ -75,5 +75,13 @@ export class SpeechEditComponent implements OnInit {
       console.log('**SpeechEditComponent::save - ', res);
       this.nav.navigate(['/speech']);
     });
+  }
+  get speechType(): any {
+	  	return this.speechForm.get('type');
+	}
+  onTypeChange(): void {
+    const type: SpeechType = this.speechType.value;
+    this.speech.type = type;
+		  console.log('onTypeChange Changed: ' + type.name);
   }
 }

@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { environment } from 'src/environments/environment.prod';
 import { SpeechType } from '../models/SpeechType';
+import { ErrorCode } from '../models/Error';
 
 @Injectable({
   providedIn: 'root'
@@ -53,12 +54,16 @@ export class SpeechService {
   }
 
   private handleError<T>(operation = 'operation'): any  {
-    return (error: HttpErrorResponse): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-     // return of(result as T);
-      const errorMessage = `${error.message} - ${JSON.stringify(error.error)}` ;
-      throw errorMessage;
+    return (httpErrorResponse: HttpErrorResponse): Observable<T> => {
+      console.error(HttpErrorResponse);
+      console.log(`${operation} failed: ${httpErrorResponse.message}`);
+      const result: ErrorCode =
+      {
+        errorCode : httpErrorResponse.error.errorCode,
+        errorMessage : httpErrorResponse.error.message,
+        error : JSON.stringify(httpErrorResponse.error)
+      };
+      throw  result;
     };
   }
 }

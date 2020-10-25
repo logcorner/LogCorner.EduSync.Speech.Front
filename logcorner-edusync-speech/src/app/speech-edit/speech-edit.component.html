@@ -162,6 +162,9 @@
   
     </div>
   </div>
+  <div *ngIf="errorMessage" class="btn btn-danger">
+    {{errorMessage}}
+</div>
   <br>Dirty: {{ speechForm.dirty }}
   <br>Touched: {{ speechForm.touched }}
   <br>Valid: {{ speechForm.valid }}

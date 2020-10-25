@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorCode } from '../models/Error';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
 import { SpeechService } from '../services/speech.service';
@@ -71,9 +72,17 @@ export class SpeechEditComponent implements OnInit {
   }
 
   saveSpeech(): void {
-    this.speechService.updateSpeech(this.speech).subscribe((res) => {
-      console.log('**SpeechEditComponent::save - ', res);
-      this.nav.navigate(['/speech']);
+    this.speechService.updateSpeech(this.speech).subscribe({
+      next: () =>
+      {
+        this.nav.navigate(['/speech']);
+      },
+      error: (err: ErrorCode ) => {
+        this.errorMessage = err.errorMessage;
+        if (err.errorCode === 5000) {
+          this.getSpeech(this.speech.id);
+        }
+      }
     });
   }
 
@@ -84,6 +93,6 @@ export class SpeechEditComponent implements OnInit {
   onTypeChange(): void {
     const type: SpeechType = this.speechType.value;
     this.speech.type = type;
-	  console.log(`onTypeChange Changed: ${type.name}`);
+	   console.log(`onTypeChange Changed: ${type.name}`);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { environment } from 'src/environments/environment.prod';
 import { SpeechType } from '../models/SpeechType';
@@ -11,7 +11,6 @@ import { ErrorCode } from '../models/Error';
   providedIn: 'root'
 })
 export class SpeechService {
-
   private queryAPI = environment.queryAPI;
   private commandAPI = environment.commandAPI;
 
@@ -53,16 +52,35 @@ export class SpeechService {
         catchError(this.handleError('createSpeech' )));
   }
 
+  deleteSpeech(id: string): Observable<any>{
+    return this.http.delete(`${this.commandAPI}/speech/${id}`)
+      .pipe(
+        tap(result => console.log(`delete speech`, id, result)),
+        catchError(this.handleError('deleteSpeech' )));
+  }
+
   private handleError<T>(operation = 'operation'): any  {
     return (httpErrorResponse: HttpErrorResponse): Observable<T> => {
       console.error(HttpErrorResponse);
       console.log(`${operation} failed: ${httpErrorResponse.message}`);
-      const result: ErrorCode =
+      let result: ErrorCode;
+      if (httpErrorResponse.error === null)
       {
-        errorCode : httpErrorResponse.error.errorCode,
-        errorMessage : httpErrorResponse.error.message,
-        error : JSON.stringify(httpErrorResponse.error)
-      };
+        result =
+        {
+          errorCode : httpErrorResponse.status,
+          errorMessage : httpErrorResponse.message,
+          error : JSON.stringify(httpErrorResponse)
+        };
+      }
+      else {
+        result =
+        {
+          errorCode : httpErrorResponse.error?.errorCode,
+          errorMessage : httpErrorResponse.error.message,
+          error : JSON.stringify(httpErrorResponse.error)
+        };
+    }
       throw  result;
     };
   }

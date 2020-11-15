@@ -32,11 +32,27 @@
               <td>{{speech.type?.name}}</td>
               <td>
                 <a [routerLink]="['/speech', speech.id]" class="btn btn-info btn-sm mr-2">Edit</a>
+                <button class="btn btn-danger btn-sm" (click)="deleteSpeech(speech.id, deleteModal)">Delete</button>
               </td>
               </tr>
           </tbody>
         </table>
   
       </div>
+      <div *ngIf="errorMessage" class="btn btn-danger">
+        {{errorMessage}}
     </div>
+    </div>
+    <ng-template #deleteModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Delete?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="modal.close()">Yes (Delete)</button>
+        <button class="btn btn-danger" (click)="modal.dismiss()">No</button>
+      </div>
+    </ng-template>
    </div>

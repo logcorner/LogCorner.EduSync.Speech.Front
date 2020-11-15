@@ -5,10 +5,12 @@ export class Speech {
   title: string;
   description: string;
   url: string;
+  typeId: number | null;
   type: SpeechType;
   version: number;
   constructor()
   {
+
   }
 }
 

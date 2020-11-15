@@ -54,6 +54,7 @@ export class SpeechEditComponent implements OnInit {
   displaySpeech(speech: Speech): void {
     console.log('**SpeechEditComponent::displaySpeech - ', speech);
     this.speech = speech;
+
     const speechType = this.speechTypes?.find(x => x.value === this.speech.type.value);
 
     if (this.speechForm) {
@@ -66,13 +67,15 @@ export class SpeechEditComponent implements OnInit {
         title : speech.title,
         description: speech.description,
         url: speech.url,
-        type: speechType !== undefined ? speechType : null
+        type: speechType !== undefined ? speechType : null,
      }
    );
   }
 
   saveSpeech(): void {
-    this.speechService.updateSpeech(this.speech).subscribe({
+     const p: Speech = { ...this.speech, ...this.speechForm.value };
+     p.typeId = p.type !== undefined ? p.type.value : null;
+     this.speechService.updateSpeech(p).subscribe({
       next: () =>
       {
         this.nav.navigate(['/speech']);
@@ -80,7 +83,7 @@ export class SpeechEditComponent implements OnInit {
       error: (err: ErrorCode ) => {
         this.errorMessage = err.errorMessage;
         if (err.errorCode === 5000) {
-          this.getSpeech(this.speech.id);
+          this.getSpeech(p.id);
         }
       }
     });

@@ -20,14 +20,15 @@
                    type="text"
                    placeholder="Title (required)"
                    formControlName="title"
+                 
                    [ngClass]="{'is-invalid': (speechForm.get('title').touched ||
                                               speechForm.get('title').dirty) &&
                                               !speechForm.get('title').valid }" />
             <span class="invalid-feedback">
               <span *ngIf="speechForm.get('title').errors?.required">
-               <!--  <ngb-alert type="danger"  [dismissible]="false">
+                 <ngb-alert type="danger"  [dismissible]="false">
                   <strong>Title</strong> is required.
-                </ngb-alert> -->
+                </ngb-alert>  
               
               </span>
               <span *ngIf="speechForm.get('title').errors?.minlength">
@@ -153,7 +154,7 @@
                     [disabled]="!speechForm.valid">
               Save
             </button>
-            <a class="btn btn-secondary" [routerLink]="['/speeches']">Cancel</a>
+            <a class="btn btn-secondary" [routerLink]="['/speech']">Cancel</a>
            
           </div>
         </div>

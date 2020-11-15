@@ -152,7 +152,7 @@
                     [disabled]="!speechForm.valid">
               Save
             </button>
-            <a class="btn btn-secondary" [routerLink]="['/speeches']">Cancel</a>
+            <a class="btn btn-secondary" [routerLink]="['/speech']">Cancel</a>
             <button class="btn btn-outline-secondary"
                     type="button"
                     (click)="populateTestData()">
@@ -161,13 +161,11 @@
           </div>
         </div>
       </form>
+    </div>
   
-  </div>
-   
    <div *ngIf="errorMessage" class="btn btn-danger">
        {{errorMessage}}
    </div>
-
 
   <br>Dirty: {{ speechForm.dirty }}
   <br>Touched: {{ speechForm.touched }}

@@ -43,6 +43,8 @@ export class SpeechCreateComponent implements OnInit {
   save(): void {
     if (this.speechForm.valid) {
         this.speech = this.speechForm.value ;
+
+        this.speech.typeId = this.speech.type !== undefined ? this.speech.type.value : null;
         console.log(' this.speech: ' + JSON.stringify( this.speech));
         this.speechService.createSpeech(this.speech)
         .subscribe({
@@ -66,8 +68,8 @@ export class SpeechCreateComponent implements OnInit {
   populateTestData(): void {
     const speechType = this.speechTypes?.find(x => x.value === 1);
     this.speechForm.patchValue({
-     title: 'Event driven',
-     description : 'Lorem Ipsum ',
+     title: 'Le Lorem Ipsum est simplement du faux texte',
+     description : 'Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte',
      url : 'http://www.yahoo.fr',
      type: speechType !== undefined ? speechType : null
     });

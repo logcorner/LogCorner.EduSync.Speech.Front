@@ -20,15 +20,21 @@ export class SpeechListComponent implements OnInit {
   }
 
   getSpeeches(): void {
-    this.speechService.getSpeeches()
-      .subscribe({
-        next: (value: Speech[]) =>
-        {
-          this.speeches = value;
-          console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
-        },
-        error: err => this.errorMessage = err
-      });
+    this.speechService.getSpeeches().then(
+      (result) =>
+      {
+        result.subscribe({
+          next: (value: Speech[]) =>
+          {
+            this.speeches = value;
+            console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
+          },
+          error: err => this.errorMessage = err
+        });
+      }
+    );
+
+      
   }
 
   deleteSpeech(id: string, deleteModal): void{

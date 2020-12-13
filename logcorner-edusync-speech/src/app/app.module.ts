@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpeechService } from './services/speech.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
+import { MsalModule } from '@azure/msal-angular';
+import { environment } from 'src/environments/environment';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,7 @@ import { SpeechCreateComponent } from './speech-create/speech-create.component';
     SpeechListComponent,
     SpeechEditComponent,
     SpeechCreateComponent,
+    NavMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,14 @@ import { SpeechCreateComponent } from './speech-create/speech-create.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    MsalModule.forRoot({
+      auth: {
+        clientId: environment.OAuthSettings.clientId,
+        redirectUri: environment.OAuthSettings.redirectUri,
+        authority : environment.OAuthSettings.authority
+      }
+    })
   ],
   providers: [
     SpeechService

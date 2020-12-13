@@ -6,6 +6,7 @@ import { Speech } from '../models/speech-model';
 import { environment } from 'src/environments/environment.prod';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SpeechService {
   private queryAPI = environment.queryAPI;
   private commandAPI = environment.commandAPI;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getSpeechTypes(): Observable<SpeechType[]> {
     const url = `${this.queryAPI}/speech/types/`;
@@ -24,11 +25,23 @@ export class SpeechService {
         catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
    }
 
-  getSpeeches(): Observable<Speech[]> {
-    return this.http.get<Speech[]>(`${this.queryAPI}/speech`)
+  async getSpeeches(): Promise< Observable<Speech[]>> {
+    let token =    await   this.authService.getAccessToken()
+     .catch((reason) => {
+      console.log(reason);
+    });
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+   console.log('token =', token);
+   
+    return this.http.get<Speech[]>(`${this.queryAPI}/speech`, {  headers :headers })
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));
+            
   }
 
   getSpeech(id: string): Observable<Speech> {

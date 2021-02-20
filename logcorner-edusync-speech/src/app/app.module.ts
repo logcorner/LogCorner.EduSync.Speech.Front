@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpeechListComponent } from './speech-list/speech-list.component';
@@ -10,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpeechService } from './services/speech.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
+import { MediatorService } from './services/mediator-service';
 
 @NgModule({
   declarations: [
@@ -27,8 +27,9 @@ import { SpeechCreateComponent } from './speech-create/speech-create.component';
     NgbModule
   ],
   providers: [
-    SpeechService
-  ],
+    SpeechService,
+    MediatorService
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

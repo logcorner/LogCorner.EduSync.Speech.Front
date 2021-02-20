@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
@@ -7,9 +7,7 @@ import { environment } from 'src/environments/environment.prod';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SpeechService {
   private queryAPI = environment.queryAPI;
   private commandAPI = environment.commandAPI;

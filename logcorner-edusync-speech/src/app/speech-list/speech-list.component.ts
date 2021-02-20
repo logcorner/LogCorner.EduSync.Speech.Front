@@ -1,22 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { ErrorCode } from '../models/Error';
+import { Events } from '../models/Events';
 import { Speech } from '../models/speech-model';
+import { MediatorService } from '../services/mediator-service';
+import { SignalRService } from '../services/signalr-service';
 import { SpeechService } from '../services/speech.service';
-
 @Component({
   selector: 'app-speech-list',
   templateUrl: './speech-list.component.html',
   styleUrls: ['./speech-list.component.scss']
 })
 export class SpeechListComponent implements OnInit {
-
+  eventbus : Subscription;
   speeches: Speech[];
   errorMessage: any;
-   constructor(private speechService: SpeechService, private modal: NgbModal) { }
+   constructor(private speechService: SpeechService,
+     private modal: NgbModal,
+     private mediatorService : MediatorService) { }
 
   ngOnInit(): void {
     this.getSpeeches();
+   
+    this.eventbus = this.mediatorService.on(Events.topic,(data : any) => {
+      console.log('received : ', data)
+      this.getSpeeches();
+    })
   }
 
   getSpeeches(): void {

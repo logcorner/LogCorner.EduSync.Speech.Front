@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SignalRService } from './services/signalr-service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'logcorner-edusync-speech';
+
+  constructor(private signalRService : SignalRService)  {
+  }
 }

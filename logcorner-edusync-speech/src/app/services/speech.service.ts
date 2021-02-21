@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
@@ -50,8 +50,18 @@ export class SpeechService {
         catchError(this.handleError('createSpeech' )));
   }
 
-  deleteSpeech(id: string): Observable<any>{
-    return this.http.delete(`${this.commandAPI}/speech/${id}`)
+  deleteSpeech(id: string, version : number): Observable<any>{
+    let body : any= {
+      id :id,
+      version : version
+    }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body : body
+    };
+    return this.http.delete(`${this.commandAPI}/speech/`,httpOptions)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),
         catchError(this.handleError('deleteSpeech' )));

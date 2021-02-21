@@ -32,7 +32,7 @@
               <td>{{speech.type?.name}}</td>
               <td>
                 <a [routerLink]="['/speech', speech.id]" class="btn btn-info btn-sm mr-2">Edit</a>
-                <button class="btn btn-danger btn-sm" (click)="deleteSpeech(speech.id, deleteModal)">Delete</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteSpeech(speech.id,speech.version, deleteModal)">Delete</button>
               </td>
               </tr>
           </tbody>

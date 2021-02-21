@@ -5,7 +5,6 @@ import { ErrorCode } from '../models/Error';
 import { Events } from '../models/Events';
 import { Speech } from '../models/speech-model';
 import { MediatorService } from '../services/mediator-service';
-import { SignalRService } from '../services/signalr-service';
 import { SpeechService } from '../services/speech.service';
 @Component({
   selector: 'app-speech-list',
@@ -41,11 +40,11 @@ export class SpeechListComponent implements OnInit {
       });
   }
 
-  deleteSpeech(id: string, deleteModal): void{
+  deleteSpeech(id: string, version : number, deleteModal): void{
     const options: NgbModalOptions = { size: 'sm' };
     this.modal.open(deleteModal, options).result.then(result => {
       console.log('**SpeechListComponent::deleteSpeech:result - ', result);
-      this.speechService.deleteSpeech(id)
+      this.speechService.deleteSpeech(id,version)
          .subscribe({
           next: (value: any) =>
           {

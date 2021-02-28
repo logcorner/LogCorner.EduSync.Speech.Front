@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr';
+import { environment } from 'src/environments/environment';
 import { EmitEvent } from '../models/EmitEvent';
 import { MediatorService } from './mediator-service';
 
@@ -8,7 +9,7 @@ import { MediatorService } from './mediator-service';
 })
 export class SignalRService {
     private _hubConnection: HubConnection;  
-    private _hubUrl = 'http://localhost:5000/logcornerhub';
+    private _hubUrl =environment.hubNotificationUrl;
     constructor(private mediatorService : MediatorService) {  
       this.createConnection();  
       this.startConnection();  
@@ -21,17 +22,20 @@ export class SignalRService {
     }  
     
     private startConnection(): void {  
+
+      if(this._hubConnection.state === HubConnectionState.Disconnected){
       this._hubConnection  
         .start()  
         .then(() => {  
-          console.log('Hub connection started');  
+          console.log('**SignalRService::startConnection : connection started');  
           this.subscribe();
           this.onReceived();
         })  
         .catch(() => {  
-          console.log('Error while establishing connection, retrying...');  
+          console.log('**SignalRService::startConnection : Error while establishing connection, retrying...');  
           setTimeout(function () { this.startConnection(); }, 5000);  
         });  
+      }
     }  
     
     onDisconnected =() => 
@@ -41,6 +45,7 @@ export class SignalRService {
             this.startConnection();
           }
      });
+     console.log('**SignalRService::onDisconnected : connection closed');  
     }  
 
     subscribe =() => {

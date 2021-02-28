@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  commandAPI : 'http://localhost:5001/api',
-  queryAPI : 'http://localhost:5002/api'
+  commandAPI : 'http://logcorner.edusync.speech.command:80/api',
+  queryAPI : 'http://logcorner.edusync.speech.query:80/api',
+  hubNotificationUrl : 'http://logcorner.edusync.signalr.server:80/logcornerhub'
 };

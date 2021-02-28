@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   commandAPI : 'http://localhost:5001/api',
-  queryAPI : 'http://localhost:5002/api'
+  queryAPI : 'http://localhost:5002/api',
+  hubNotificationUrl :'http://localhost:5000/logcornerhub'
 };
 
 /*

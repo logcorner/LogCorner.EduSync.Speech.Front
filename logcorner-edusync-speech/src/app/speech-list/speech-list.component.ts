@@ -23,9 +23,13 @@ export class SpeechListComponent implements OnInit {
     this.getSpeeches();
    
     this.eventbus = this.mediatorService.on(Events.topic,(data : any) => {
-      console.log('received : ', data)
-      this.getSpeeches();
+      console.log('received from hub: ', data)
+      this.refreshSpeeches();
     })
+  }
+  refreshSpeeches() : void{
+    console.log('**SpeechListComponent::refreshSpeeches');
+    this.getSpeeches();
   }
 
   getSpeeches(): void {

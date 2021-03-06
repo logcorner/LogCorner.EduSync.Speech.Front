@@ -49,12 +49,12 @@ export class SignalRService {
     }  
 
     subscribe =() => {
-        this._hubConnection.invoke('Subscribe', 'speech');
+        this._hubConnection.invoke('Subscribe', 'ReadModelAcknowledged');
     }  
 
     onReceived =() => { 
         this._hubConnection.on('OnPublish',(topic :string, body : string ) => {
-            if(topic == 'speech')  {
+            if(topic == 'ReadModelAcknowledged')  {
                 let event : EmitEvent = {
                     name : topic,
                     value : body

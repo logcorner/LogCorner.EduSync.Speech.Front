@@ -1,3 +1,3 @@
 export class Events{
-   public static  topic ='speech';
+   public static  topic ='ReadModelAcknowledged';
 }

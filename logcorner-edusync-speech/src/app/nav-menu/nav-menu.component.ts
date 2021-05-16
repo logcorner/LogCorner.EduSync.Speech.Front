@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { Subscription } from 'rxjs';
+import { b2cPolicies, isIE } from '../app-config';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -6,21 +9,38 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.scss']
 })
-export class NavMenuComponent implements OnInit {
-
-  constructor(private authService: AuthService) { }
+export class NavMenuComponent implements OnInit , OnDestroy {
+  subscriptions: Subscription[] = [];
+  isAuthenticated =false;
+  constructor(private authService: MsalService,private broadcastService: BroadcastService) { }
 
   ngOnInit() {
+    this.checkAccount();
+   let loginSuccessSubscription = this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+   
+        console.log('login succeeded. id token acquired at: ' + new Date().toString());
+        console.log(success);
+  
+        this.checkAccount();
+      });
+      this.subscriptions.push(loginSuccessSubscription);
   }
-  get authenticated(): boolean {
-    return this.authService.authenticated;
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
- 
-  async signIn(): Promise<void> {
-    await this.authService.signIn();
+  checkAccount() {
+    this.isAuthenticated = !!this.authService.getAccount();
   }
 
-  signOut(): void {
-    this.authService.signOut();
+  async signIn(): Promise<void> {
+    if (isIE) {
+      this.authService.loginRedirect();
+    } else {
+      this.authService.loginPopup();
+    }
+  }
+
+  signOut() {
+    this.authService.logout();
   }
 }

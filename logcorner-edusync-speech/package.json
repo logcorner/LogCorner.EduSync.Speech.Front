@@ -23,7 +23,7 @@
     "@azure/msal-angular": "^1.1.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.3",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "msal": "^1.4.4",
     "ngx-loading": "^8.0.0",
     "rxjs": "~6.6.0",

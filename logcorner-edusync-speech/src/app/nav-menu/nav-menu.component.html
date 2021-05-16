@@ -15,7 +15,7 @@
     </ul>
   </div>
   <div>
-    <button *ngIf="!authenticated" class="btn btn-primary btn-large" role="button" (click)="signIn()">sign in</button>
+    <button *ngIf="!isAuthenticated" class="btn btn-primary btn-large" role="button" (click)="signIn()">sign in</button>
 
   </div>
   <div>
@@ -24,7 +24,7 @@
         <a class="nav-item nav-link" [routerLink]="['/user']" [routerLinkActive]="['link-active']">Profile</a>
       </li>
       <li>
-        <button *ngIf="authenticated" class="btn btn-primary btn-large" role="button" (click)="signOut()">log out</button>
+        <button *ngIf="isAuthenticated" class="btn btn-primary btn-large" role="button" (click)="signOut()">log out</button>
 
       </li>
     </ul>

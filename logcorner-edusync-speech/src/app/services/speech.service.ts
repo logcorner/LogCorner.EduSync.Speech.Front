@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment.prod';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
 import { AuthService } from './auth.service';
+import { apiConfig } from '../app-config';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class SpeechService {
    }
 
   async getSpeeches(): Promise< Observable<Speech[]>> {
-    let token =    await   this.authService.getAccessToken()
+    /*let token =    await   this.authService.getAccessToken()
      .catch((reason) => {
       console.log(reason);
     });
@@ -36,8 +37,10 @@ export class SpeechService {
         'Authorization': `Bearer ${token}`
       })
    console.log('token =', token);
-   
-    return this.http.get<Speech[]>(`${this.queryAPI}/speech`, {  headers :headers })
+   */
+  console.log('this.http.options',this.http.options);
+   this.queryAPI = apiConfig.webApi;
+    return this.http.get<Speech[]>(`${this.queryAPI}/speech`/*, {  headers :headers }*/)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));

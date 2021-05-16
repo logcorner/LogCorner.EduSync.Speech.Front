@@ -14,6 +14,7 @@ export const environment = {
           "https://leyegorayahoo.onmicrosoft.com/queryapi/api-access"
      ]
    }
+   
 };
 
 /*

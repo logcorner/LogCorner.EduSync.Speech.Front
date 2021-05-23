@@ -21,6 +21,7 @@ import {
 
 import { msalConfig, msalAngularConfig } from './app-config';
 import { Configuration } from 'msal';
+import { ProfileComponent } from './profile/profile.component';
 function MSALConfigFactory(): Configuration {
   return msalConfig;
 }
@@ -36,6 +37,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
     SpeechEditComponent,
     SpeechCreateComponent,
     NavMenuComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,14 +47,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
     ReactiveFormsModule,
     NgbModule,
     MsalModule
-    /* MsalModule.forRoot({
-      auth: {
-        clientId: environment.OAuthSettings.clientId,
-        redirectUri: environment.OAuthSettings.redirectUri,
-        authority : environment.OAuthSettings.authority
-      }
-    }) */
-  ],
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -68,8 +63,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
       useFactory: MSALAngularConfigFactory
     },
     MsalService
-    // SpeechService
-  ],
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

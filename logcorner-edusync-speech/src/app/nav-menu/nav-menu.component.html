@@ -19,15 +19,19 @@
 
   </div>
   <div>
-    <ul class="navbar-nav mr-auto">
+    <ul *ngIf="isAuthenticated" class="navbar-nav mr-auto">
       <li>
-        <a class="nav-item nav-link" [routerLink]="['/user']" [routerLinkActive]="['link-active']">Profile</a>
+        <a class="nav-item nav-link" [routerLink]="['/profile']" [routerLinkActive]="['link-active']">Profile</a>
       </li>
       <li>
-        <button *ngIf="isAuthenticated" class="btn btn-primary btn-large" role="button" (click)="signOut()">log out</button>
+        <button  class="btn btn-primary btn-large" role="button" (click)="signOut()">log out</button>
 
       </li>
     </ul>
     
      </div>
+</div>
+<div class='card-section'>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 </div>

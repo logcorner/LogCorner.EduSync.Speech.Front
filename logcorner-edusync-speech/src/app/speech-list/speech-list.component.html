@@ -1,21 +1,28 @@
 <div>
-   
-    <div class="card">
+   <div class="card">
       <h3 class="card-header">
+
+        <div class="jumbotron">
+          <h1 class="display-4">LogCorner Speech Repository</h1>
+          <p class="lead">This is a repository of speeches</p>
+        </div>
+ 
          Speeches
         <a [routerLink]="['/speech', 'new']" class="btn btn-sm btn-primary float-right" [ngbTooltip]="ttContent"
-          placement="left" tooltipClass="custom-tooltip">Add New Speech</a>
+          placement="left" tooltipClass="custom-tooltip" >
+          <span class="btn-success">
+            Add New Speech
+          </span>
+          </a>
         <ng-template #ttContent>
-          Log a new <strong class="text-primary text-uppercase">workout</strong> into your list
+          Insert a new <strong class="text-primary text-uppercase">speech</strong> into your list
         </ng-template>
-  
-      </h3>
+       </h3>
       <div class="card-body">
         <div class="row">
           <div class="col">
           </div>
         </div>
-  
         <table class="table table-striped">
           <thead>
             <th>Title</th>
@@ -37,7 +44,6 @@
               </tr>
           </tbody>
         </table>
-  
       </div>
       <div *ngIf="errorMessage" class="btn btn-danger">
         {{errorMessage}}

@@ -6,11 +6,8 @@ import { SpeechListComponent } from './speech-list/speech-list.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SpeechService } from './services/speech.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
-//import { MsalModule } from '@azure/msal-angular';
-import { environment } from 'src/environments/environment';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
 import {
@@ -71,7 +68,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
       useFactory: MSALAngularConfigFactory
     },
     MsalService
-    //SpeechService
+    // SpeechService
   ],
   bootstrap: [AppComponent]
 })

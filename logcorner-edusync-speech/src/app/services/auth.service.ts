@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/*import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { environment } from 'src/environments/environment';
 
@@ -48,3 +48,4 @@ export class AuthService {
     return null;
   }
 }
+*/

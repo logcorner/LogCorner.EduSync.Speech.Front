@@ -5,20 +5,15 @@ import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
-// import { AuthService } from './auth.service';
-import { apiConfigCommand, apiConfigQuery, msalAngularConfig } from '../app-config';
-import { MsalService } from '@azure/msal-angular';
-import { AuthenticationParameters, InteractionRequiredAuthError } from 'msal';
+import { apiConfigCommand, apiConfigQuery } from '../app-config';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpeechService {
-  /* private queryAPI = environment.queryAPI;
-  private commandAPI = environment.commandAPI; */
-
-  constructor(private http: HttpClient, private authService: MsalService) { }
-
+  constructor(private http: HttpClient) { }
+  
   getSpeechTypes(): Observable<SpeechType[]> {
     const url = `${apiConfigQuery.webApi}/speech/types/`;
     return this.http.get<SpeechType[]>(url)
@@ -28,20 +23,9 @@ export class SpeechService {
    }
 
   async getSpeeches(): Promise< Observable<Speech[]>> {
-    /*let token =    await   this.authService.getAccessToken()
-     .catch((reason) => {
-      console.log(reason);
-    });
-
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-   console.log('token =', token);
-   */
   console.log('this.http.options', this.http.options);
   console.log('url', `${apiConfigQuery.webApi}/speech`);
-  return this.http.get<Speech[]>(`${apiConfigQuery.webApi}/speech`/*, {  headers :headers }*/)
+  return this.http.get<Speech[]>(`${apiConfigQuery.webApi}/speech`)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));
@@ -56,37 +40,6 @@ export class SpeechService {
   }
 
   updateSpeech(speech: Speech): Observable<any> {
-    console.log('url', `${apiConfigCommand.webApi}/speech`);
-    const account = this.authService.getAccount();
-
-    console.log('account', account);
-
-    console.log('msalAngularConfig.consentScopes', msalAngularConfig.consentScopes);
-    console.log('msalAngularConfig.protectedResourceMap', msalAngularConfig.protectedResourceMap);
-    // tslint:disable-next-line: prefer-const
-    let authenticationParameters: AuthenticationParameters =
-    {
-      // tslint:disable-next-line: no-unused-expression
-        scopes :  apiConfigCommand.b2cScopes,
-        account
-    };
-
-    this.authService.acquireTokenSilent(authenticationParameters).then(tokenResponse => {
-     const accessToken = tokenResponse.accessToken;
-     console.log('token', accessToken);
-  }).catch (error => {
-      if (error instanceof InteractionRequiredAuthError) {
-          // fallback to interaction when silent call fails
-         // return  this.authService.acquireTokenRedirect(authenticationParameters);
-      } else {
-          console.log(error);
-      }
-  });
-
-
-    // console.log('authenticationParameters', authenticationParameters);
-    // const token =  this.authService.acquireTokenSilent(  authenticationParameters ) ;
-    // console.log('token', token);
     return this.http.put(`${apiConfigCommand.webApi}/speech`, speech)
     .pipe(
       tap(result => console.log(`update speech`, result)),

@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
-import { AuthError, InteractionRequiredAuthError } from 'msal';
+import { AuthenticationParameters, AuthError, InteractionRequiredAuthError } from 'msal';
 import { Subscription } from 'rxjs';
+import { apiConfigCommand } from '../app-config';
 
 @Component({
   selector: 'app-profile',
@@ -12,14 +13,11 @@ import { Subscription } from 'rxjs';
 export class ProfileComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
-  profile: any;
+  name: string;
   constructor(private authService: MsalService, private http: HttpClient) { }
 
   ngOnInit(): void {
-   this.profile = this.authService.getAccount().name;
-
-   console.log(this.profile);
+    const account = this.authService.getAccount();
+    this.name = account.name;
   }
-
- 
 }

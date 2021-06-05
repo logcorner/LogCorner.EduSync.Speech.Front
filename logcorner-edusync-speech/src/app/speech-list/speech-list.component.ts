@@ -33,8 +33,6 @@ export class SpeechListComponent implements OnInit {
         });
       }
     );
-
-      
   }
 
   deleteSpeech(id: string, deleteModal): void{

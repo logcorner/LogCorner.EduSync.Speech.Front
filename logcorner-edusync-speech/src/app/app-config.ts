@@ -64,16 +64,10 @@ export const tokenRequestCommand: {scopes: string[]} = {
     scopes: apiConfigCommand.b2cScopes
 };
 
-
-
-
-
 export const protectedResourceMap: [string, string[]][] = [
     [apiConfigQuery.webApi, apiConfigQuery.b2cScopes],
     [apiConfigCommand.webApi, apiConfigCommand.b2cScopes]
-   
-];
-
+ ];
 
 export const msalAngularConfig: MsalAngularConfiguration = {
     popUp: !isIE,

@@ -9,6 +9,6 @@ import { SignalRService } from './services/signalr-service';
 export class AppComponent {
   title = 'logcorner-edusync-speech';
 
-  constructor(private signalRService : SignalRService)  {
+  constructor()  {
   }
 }

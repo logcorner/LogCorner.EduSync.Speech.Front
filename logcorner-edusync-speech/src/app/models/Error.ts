@@ -4,3 +4,5 @@ export class ErrorCode {
   errorMessage: string;
   error: string;
 }
+
+

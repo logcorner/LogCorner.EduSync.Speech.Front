@@ -5,15 +5,15 @@ import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
-import { apiConfigCommand, apiConfigQuery } from '../app-config';
 import { AuthService } from './auth.service';
+import { protectedResources } from '../auth-config';
 
 @Injectable()
 export class SpeechService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getSpeechTypes(): Observable<SpeechType[]> {
-    const url = `${apiConfigQuery.webApi}/speech/types/`;
+    const url = '';// `${apiConfigQuery.webApi}/speech/types/`;
     return this.http.get<SpeechType[]>(url)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
@@ -22,10 +22,10 @@ export class SpeechService {
 
   async getSpeeches(): Promise< Observable<Speech[]>> {
   console.log('this.http.options', this.http.options);
-  console.log('url', `${apiConfigQuery.webApi}/speech`);
+  console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
 
 
-  return this.http.get<Speech[]>(`${apiConfigQuery.webApi}/speech`)
+  return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));
@@ -33,21 +33,21 @@ export class SpeechService {
   }
 
   getSpeech(id: string): Observable<Speech> {
-    return this.http.get<Speech>(`${apiConfigQuery.webApi}/speech/${id}`)
+    return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
         catchError(this.handleError<Speech>('getSpeech' )));
   }
 
   updateSpeech(speech: Speech): Observable<any> {
-    return this.http.put(`${apiConfigCommand.webApi}/speech`, speech)
+    return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech)
     .pipe(
       tap(result => console.log(`update speech`, result)),
       catchError(this.handleError('updateSpeech' )));
    }
 
   createSpeech(speech: Speech): Observable<any> {
-       return this.http.post(`${apiConfigCommand}/speech`, speech)
+       return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech)
        .pipe(
         tap(result => console.log(`create speech`, result)),
         catchError(this.handleError('createSpeech' )));
@@ -55,7 +55,7 @@ export class SpeechService {
 
   deleteSpeech(id: string, version: number): Observable<any>{
 
-    const accessToken = this.authService.getAccessToken(null);
+    const accessToken = ''
     const body: any = {
       id,
       version
@@ -67,7 +67,7 @@ export class SpeechService {
       }),
       body
     };
-    return this.http.delete(`${apiConfigCommand}/speech/`, httpOptions)
+    return this.http.delete(`${protectedResources.commandApi.endpoint}/speech/`, httpOptions)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),
         catchError(this.handleError('deleteSpeech' )));

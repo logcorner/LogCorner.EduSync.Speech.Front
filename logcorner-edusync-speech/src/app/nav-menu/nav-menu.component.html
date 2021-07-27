@@ -15,16 +15,16 @@
     </ul>
   </div>
   <div>
-    <button *ngIf="!isLoggedIn" class="btn btn-primary btn-large" role="button" (click)="onLogin()">sign in</button>
+    <button *ngIf="!loginDisplay" class="btn btn-primary btn-large" role="button" (click)="login()">sign in</button>
 
   </div>
   <div>
-    <ul *ngIf="isLoggedIn" class="navbar-nav mr-auto">
+    <ul *ngIf="loginDisplay" class="navbar-nav mr-auto">
       <li>
         <a class="nav-item nav-link" [routerLink]="['/profile']" [routerLinkActive]="['link-active']">Profile</a>
       </li>
       <li>
-        <button  class="btn btn-primary btn-large" role="button" (click)="onLogin()">log out</button>
+        <button  class="btn btn-primary btn-large" role="button" (click)="logout()">log out</button>
 
       </li>
     </ul>

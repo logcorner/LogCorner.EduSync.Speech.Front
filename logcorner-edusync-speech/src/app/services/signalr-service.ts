@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { EmitEvent } from '../models/EmitEvent';
 import { AuthService } from './auth.service';
@@ -15,24 +15,23 @@ export class SignalRService {
     constructor(private mediatorService: MediatorService, private authService: AuthService) {
 
     }
-
- options: IHttpConnectionOptions = {
-      accessTokenFactory: () => {
-       const token = this.authService.getAccessToken(['https://datasynchrob2c.onmicrosoft.com/query/api/Speech.List']);
-       console.log('**SignalRService::startConnection : token ', token);
-       return token;
-      }
-    };
-
-    private createConnection(): void {
+ 
+    private async createConnection() {
+      const accessToken = await this.authService.getToken("POST");
+      let token = `${accessToken}`
+      console.log('**SignalRService::createConnection:accessToken',accessToken);
+      console.log('**SignalRService::createConnection:token',token);
+      console.log('**SignalRService::createConnection:this._hubUrl',this._hubUrl);
         this._hubConnection = new HubConnectionBuilder()
-        .withUrl(this._hubUrl, this.options  )
-        .build();
+        .withUrl(this._hubUrl ,
+          { accessTokenFactory: () => token }) 
+          .configureLogging(LogLevel.Debug)
+          .build();
     }
 
-    StartConnection(): void {
+   async StartConnection() {
 
-       this.createConnection();
+      await this.createConnection();
 
        if (this._hubConnection.state === HubConnectionState.Disconnected){
       this._hubConnection
@@ -49,6 +48,11 @@ export class SignalRService {
       }
     }
 
+    StopConnection(): void {
+      if (this._hubConnection.state === HubConnectionState.Connected) {
+        this._hubConnection.stop();
+      }
+    }
 onDisconnected = () =>
     {
         this._hubConnection.on('', (error: any) => {

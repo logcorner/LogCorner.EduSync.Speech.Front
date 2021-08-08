@@ -45,7 +45,7 @@ function MSALAngularConfigFactory(): MsalAngularConfiguration {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
 
-  protectedResourceMap.set(protectedResources.todoListApi.endpoint, protectedResources.todoListApi.scopes);
+  protectedResourceMap.set(protectedResources.commandApi.endpoint, protectedResources.commandApi.scopes);
 
   return {
     interactionType: InteractionType.Redirect,

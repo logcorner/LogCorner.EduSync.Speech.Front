@@ -52,7 +52,7 @@ export class SpeechListComponent implements OnInit {
     const options: NgbModalOptions = { size: 'sm' };
     this.modal.open(deleteModal, options).result.then(result => {
       console.log('**SpeechListComponent::deleteSpeech:result - ', result);
-      this.speechService.deleteSpeech(id,version)
+     /* this.speechService.deleteSpeech(id,version)
          .subscribe({
           next: (value: any) =>
           {
@@ -60,7 +60,22 @@ export class SpeechListComponent implements OnInit {
             console.log('**SpeechListComponent::deleteSpeech:value - ', value);
           },
           error: (err: ErrorCode) => this.errorMessage = err.errorMessage
-        });
+        });*/
+
+        this.speechService.deleteSpeech(id,version).then(
+          (result) =>
+          {
+            result.subscribe({
+              next: (value: any) =>
+              {
+                this.speeches = this.speeches.filter(obj => obj.id !== id );
+            console.log('**SpeechListComponent::deleteSpeech:value - ', value);
+              },
+              error: err => this.errorMessage = err
+            });
+          }
+        );
+
     }, reason =>   {
          console.log(`Dismissed: ${reason}`);
     } );

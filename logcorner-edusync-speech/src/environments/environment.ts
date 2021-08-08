@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  commandAPI : 'http://localhost:5001/api',
-  queryAPI : 'http://localhost:5002/api',
+  commandAPI : 'https://localhost:6001/api',
+  queryAPI : 'http://localhost:7000/api',
   hubNotificationUrl :'http://localhost:5000/logcornerhub'
 };
 

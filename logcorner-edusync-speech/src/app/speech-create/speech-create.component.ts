@@ -31,14 +31,19 @@ export class SpeechCreateComponent implements OnInit {
   }
 
   getSpeechTypes(): void {
-    this.speechService.getSpeechTypes()
-    .subscribe({
-      next: (values: SpeechType[]) =>
+    this.speechService.getSpeechTypes().then(
+      (result) =>
       {
-        this.speechTypes = values;
-      },
-      error: err => this.errorMessage = err
-    });
+        result.subscribe({
+          next: (value: SpeechType[]) =>
+          {
+            this.speechTypes = value
+            console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
+          },
+          error: err => this.errorMessage = err
+        });
+      }
+    );
   }
   save(): void {
     if (this.speechForm.valid) {
@@ -46,7 +51,7 @@ export class SpeechCreateComponent implements OnInit {
 
         this.speech.typeId = this.speech.type !== undefined ? this.speech.type.value : null;
         console.log(' this.speech: ' + JSON.stringify( this.speech));
-        this.speechService.createSpeech(this.speech)
+        /*this.speechService.createSpeech(this.speech)
         .subscribe({
           next: () =>
           {
@@ -55,7 +60,21 @@ export class SpeechCreateComponent implements OnInit {
           error: err => {
             this.errorMessage = err;
           }
-        });
+        });*/
+
+        this.speechService.createSpeech(this.speech).then(
+          (result) =>
+          {
+            result.subscribe({
+              next: (value: Speech[]) =>
+              {
+                this.nav.navigate(['/speech']);
+                console.log('**SpeechListComponent::createSpeech:speech - ',value);
+              },
+              error: err => this.errorMessage = err
+            });
+          }
+        );
       }
     else {
       this.errorMessage = 'Please correct the validation errors.';

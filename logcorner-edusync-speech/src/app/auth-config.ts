@@ -7,6 +7,7 @@
 
 
  import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
+import { environment } from 'src/environments/environment';
 
  const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
  
@@ -63,20 +64,17 @@
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md
  */
 export const protectedResources = {
-  todoListApi: {
-    endpoint: "https://localhost:44351/api/todolist",
-    scopes: ["https://datasynchrob2c.onmicrosoft.com/command/api/demo.read"],
-  },
+
   commandApi: {
-    endpoint: "https://localhost:44351/api/todolist",
+    endpoint: environment.commandAPI,
     scopes: ["https://datasynchrob2c.onmicrosoft.com/command/api/demo.read"],
   },
   queryApi: {
-    endpoint: "https://localhost:44351/api/todolist",
-    scopes: ["https://datasynchrob2c.onmicrosoft.com/command/api/demo.read"],
+    endpoint: environment.queryAPI,
+    scopes: ["https://datasynchrob2c.onmicrosoft.com/query/api/Speech.List"],
   },
   signalrServer: {
-    endpoint: "http://localhost:5000/logcornerhub",
+    endpoint: environment.hubNotificationUrl,
     scopes: ["https://datasynchrob2c.onmicrosoft.com/signalr/hub/event-notifier"],
   },
 }

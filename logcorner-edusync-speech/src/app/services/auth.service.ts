@@ -13,10 +13,10 @@ export class AuthService {
   constructor( private msalService: MsalService) {
 
   }
-  async getToken(method: string, query?: string)  {
+  async getToken(method:  string, scopes : string[], query?:string)  {
 
     const loginRequest = {
-      scopes: [...protectedResources.signalrServer.scopes],
+      scopes: [...scopes],
       authenticationScheme: AuthenticationScheme.BEARER,
       //resourceRequestMethod: method,
       //resourceRequestUri: query ? protectedResources.todoListApi.endpoint + query : protectedResources.todoListApi.endpoint,

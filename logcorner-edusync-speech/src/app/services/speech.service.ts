@@ -10,63 +10,102 @@ import { protectedResources } from '../auth-config';
 
 @Injectable()
 export class SpeechService {
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient,  private authService: AuthService) { }
 
-  getSpeechTypes(): Observable<SpeechType[]> {
-    const url = '';// `${apiConfigQuery.webApi}/speech/types/`;
-    return this.http.get<SpeechType[]>(url)
+ async getSpeechTypes(): Promise<Observable<SpeechType[]>> {
+    const url = `${protectedResources.queryApi.endpoint}/speech/types`;
+
+  const httpOptions = await this.setHttpOptions("GET",protectedResources.queryApi.scopes);
+
+    return this.http.get<SpeechType[]>(url,httpOptions)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
         catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
    }
 
+  private async setHttpOptions(method :string, scopes : string[],body ?: any) {
+    const accessToken = await this.authService.getToken(method, scopes);
+    console.log('**SpeechService:getSpeeches:accessToken', accessToken);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken
+      }),
+      body
+    };
+    return httpOptions;
+  }
+
   async getSpeeches(): Promise< Observable<Speech[]>> {
   console.log('this.http.options', this.http.options);
   console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
 
+  const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
+  console.log('**SpeechService:getSpeeches:accessToken', accessToken);
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+       Authorization: 'Bearer ' + accessToken
+    })
+    
+  };
 
-  return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`)
+  return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));
 
   }
 
-  getSpeech(id: string): Observable<Speech> {
-    return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`)
+ async getSpeech(id: string){//: Observable<Speech> {
+    const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + accessToken
+      })
+      
+    };
+    return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
         catchError(this.handleError<Speech>('getSpeech' )));
   }
 
-  updateSpeech(speech: Speech): Observable<any> {
-    return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech)
+ async updateSpeech(speech: Speech): Promise< Observable<any>> {
+
+    const httpOptions = await this.setHttpOptions("PUT",protectedResources.commandApi.scopes);
+    return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech, httpOptions)
     .pipe(
       tap(result => console.log(`update speech`, result)),
       catchError(this.handleError('updateSpeech' )));
    }
 
-  createSpeech(speech: Speech): Observable<any> {
-       return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech)
+ async createSpeech(speech: Speech): Promise< Observable<any>> {
+
+    const httpOptions = await this.setHttpOptions("POST",protectedResources.commandApi.scopes);
+       return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech,httpOptions)
        .pipe(
         tap(result => console.log(`create speech`, result)),
         catchError(this.handleError('createSpeech' )));
   }
 
-  deleteSpeech(id: string, version: number): Observable<any>{
+ async deleteSpeech(id: string, version: number): Promise< Observable<any>>{
 
-    const accessToken = ''
+   
     const body: any = {
       id,
       version
     };
-    const httpOptions = {
+    /*const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
          Authorization: 'Bearer ' + accessToken
       }),
       body
-    };
+    };*/
+
+    const httpOptions = await this.setHttpOptions("DELETE",protectedResources.commandApi.scopes,body);
     return this.http.delete(`${protectedResources.commandApi.endpoint}/speech/`, httpOptions)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),

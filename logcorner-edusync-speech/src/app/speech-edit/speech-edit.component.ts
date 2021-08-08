@@ -35,21 +35,47 @@ export class SpeechEditComponent implements OnInit {
   }
 
   getSpeechTypes(): void {
-    this.speechService.getSpeechTypes()
+    /*this.speechService.getSpeechTypes()
     .subscribe({
       next: (values: SpeechType[]) =>
       {
         this.speechTypes = values;
       },
       error: err => this.errorMessage = err
-    });
+    });*/
+    this.speechService.getSpeechTypes().then(
+      (result) =>
+      {
+        result.subscribe({
+          next: (value: SpeechType[]) =>
+          {
+            this.speechTypes = value
+            console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
+          },
+          error: err => this.errorMessage = err
+        });
+      }
+    );
   }
   getSpeech(id: string): void {
-    this.speechService.getSpeech(id)
+   /*  this.speechService.getSpeech(id)
         .subscribe({
           next: (value: Speech) => this.displaySpeech(value),
           error: err => this.errorMessage = err
-        });
+        }); */
+        this.speechService.getSpeech(id).then(
+          (result) =>
+          {
+            result.subscribe({
+              next: (value: Speech) =>
+              {
+                this.displaySpeech(value);
+                console.log('**SpeechEditComponent::getSpeech:speech - ', value);
+              },
+              error: err => this.errorMessage = err
+            });
+          }
+        );
   }
   displaySpeech(speech: Speech): void {
     console.log('**SpeechEditComponent::displaySpeech - ', speech);
@@ -75,7 +101,7 @@ export class SpeechEditComponent implements OnInit {
   saveSpeech(): void {
      const p: Speech = { ...this.speech, ...this.speechForm.value };
      p.typeId = p.type !== undefined ? p.type.value : null;
-     this.speechService.updateSpeech(p).subscribe({
+     /*this.speechService.updateSpeech(p).subscribe({
       next: () =>
       {
         this.nav.navigate(['/speech']);
@@ -86,7 +112,21 @@ export class SpeechEditComponent implements OnInit {
           this.getSpeech(p.id);
         }
       }
-    });
+    });*/
+
+    this.speechService.updateSpeech(p).then(
+      (result) =>
+      {
+        result.subscribe({
+          next: (value: any) =>
+          {
+            this.nav.navigate(['/speech']);
+            console.log('**SpeechListComponent::getSpeeches:speeches - ', value);
+          },
+          error: err => this.errorMessage = err
+        });
+      }
+    );
   }
 
   get speechType(): any {

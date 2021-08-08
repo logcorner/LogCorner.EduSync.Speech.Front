@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { protectedResources } from '../auth-config';
 import { EmitEvent } from '../models/EmitEvent';
 import { AuthService } from './auth.service';
 import { MediatorService } from './mediator-service';
@@ -17,7 +18,7 @@ export class SignalRService {
     }
  
     private async createConnection() {
-      const accessToken = await this.authService.getToken("POST");
+      const accessToken = await this.authService.getToken("POST",protectedResources.signalrServer.scopes);
       let token = `${accessToken}`
       console.log('**SignalRService::createConnection:accessToken',accessToken);
       console.log('**SignalRService::createConnection:token',token);

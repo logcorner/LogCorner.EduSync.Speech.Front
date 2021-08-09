@@ -15,7 +15,7 @@ export class SpeechService {
  async getSpeechTypes(): Promise<Observable<SpeechType[]>> {
     const url = `${protectedResources.queryApi.endpoint}/speech/types`;
 
-  const httpOptions = await this.setHttpOptions("GET",protectedResources.queryApi.scopes);
+  const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
 
     return this.http.get<SpeechType[]>(url,httpOptions)
       .pipe(
@@ -23,24 +23,13 @@ export class SpeechService {
         catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
    }
 
-  private async setHttpOptions(method :string, scopes : string[],body ?: any) {
-    const accessToken = await this.authService.getToken(method, scopes);
-    console.log('**SpeechService:getSpeeches:accessToken', accessToken);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + accessToken
-      }),
-      body
-    };
-    return httpOptions;
-  }
+  
 
   async getSpeeches(): Promise< Observable<Speech[]>> {
   console.log('this.http.options', this.http.options);
   console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
 
-  const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
+  /* const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
   console.log('**SpeechService:getSpeeches:accessToken', accessToken);
   const httpOptions = {
     headers: new HttpHeaders({
@@ -48,8 +37,8 @@ export class SpeechService {
        Authorization: 'Bearer ' + accessToken
     })
     
-  };
-
+  }; */
+const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
   return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
@@ -57,15 +46,16 @@ export class SpeechService {
 
   }
 
- async getSpeech(id: string){//: Observable<Speech> {
-    const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
+ async getSpeech(id: string): Promise< Observable<Speech>> {
+    /* const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
          Authorization: 'Bearer ' + accessToken
-      })
+      }) 
       
-    };
+    };*/
+    const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
     return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
@@ -74,7 +64,7 @@ export class SpeechService {
 
  async updateSpeech(speech: Speech): Promise< Observable<any>> {
 
-    const httpOptions = await this.setHttpOptions("PUT",protectedResources.commandApi.scopes);
+    const httpOptions = await this.authService.setHttpOptions("PUT",protectedResources.commandApi.scopes);
     return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech, httpOptions)
     .pipe(
       tap(result => console.log(`update speech`, result)),
@@ -83,7 +73,7 @@ export class SpeechService {
 
  async createSpeech(speech: Speech): Promise< Observable<any>> {
 
-    const httpOptions = await this.setHttpOptions("POST",protectedResources.commandApi.scopes);
+    const httpOptions = await this.authService.setHttpOptions("POST",protectedResources.commandApi.scopes);
        return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech,httpOptions)
        .pipe(
         tap(result => console.log(`create speech`, result)),
@@ -91,21 +81,13 @@ export class SpeechService {
   }
 
  async deleteSpeech(id: string, version: number): Promise< Observable<any>>{
-
-   
+  
     const body: any = {
       id,
       version
     };
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + accessToken
-      }),
-      body
-    };*/
 
-    const httpOptions = await this.setHttpOptions("DELETE",protectedResources.commandApi.scopes,body);
+    const httpOptions = await this.authService.setHttpOptions("DELETE",protectedResources.commandApi.scopes,body);
     return this.http.delete(`${protectedResources.commandApi.endpoint}/speech/`, httpOptions)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {   HttpHeaders } from '@angular/common/http';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationScheme, InteractionRequiredAuthError } from '@azure/msal-browser';
 import { protectedResources } from '../auth-config';
@@ -39,6 +40,18 @@ export class AuthService {
       });
   }
   
+   async setHttpOptions(method :string, scopes : string[],body ?: any) {
+    const accessToken = await this.getToken(method, scopes);
+    console.log('**SpeechService:getSpeeches:accessToken', accessToken);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken
+      }),
+      body
+    };
+    return httpOptions;
+  }
   
  }
 

@@ -8,13 +8,10 @@ import { SpeechListComponent } from './speech-list/speech-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/speech', pathMatch: 'full' },
-  { path: 'speech', component: SpeechListComponent ,
-  canActivate: [
-    MsalGuard
-  ]},
-  { path: 'speech/new', component: SpeechCreateComponent } ,
-  { path: 'speech/:id', component: SpeechEditComponent },
-  { path: 'profile', component: ProfileComponent } ,
+  { path: 'speech', component: SpeechListComponent , canActivate: [MsalGuard]},
+  { path: 'speech/new', component: SpeechCreateComponent ,canActivate: [MsalGuard]} ,
+  { path: 'speech/:id', component: SpeechEditComponent,canActivate: [MsalGuard] },
+  { path: 'profile', component: ProfileComponent,canActivate: [MsalGuard] } ,
  ];
 
 @NgModule({

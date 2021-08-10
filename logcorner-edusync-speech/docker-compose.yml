@@ -6,7 +6,7 @@
 # Run docker-compose up
 # Live long and prosper
 
-version: '3.1'
+version: '3.4'
 
 services:
 
@@ -17,12 +17,12 @@ services:
       context: .
       dockerfile: nginx.dockerfile
       args:
-       - buildenv=prod
+       - buildenv=docker
     ports:
       - "4200:80"
       - "443:443"
     environment:
-        NODE_ENV: prod
+        NODE_ENV: docker
     networks:
       - speech_network
 

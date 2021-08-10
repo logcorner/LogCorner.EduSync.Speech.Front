@@ -7,7 +7,7 @@ COPY package-lock.json package-lock.json
 RUN npm install
 
 COPY . .
-ARG configuration=production
+ARG configuration=docker
 RUN npm run build -- --output-path=./dist --configuration $configuration
 
 ##### Stage 2

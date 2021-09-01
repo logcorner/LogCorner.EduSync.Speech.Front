@@ -42,8 +42,8 @@ export class SignalRService {
           this.subscribe();
           this.onReceived();
         })
-        .catch(() => {
-          console.log('**SignalRService::startConnection : Error while establishing connection, retrying...');
+        .catch((err) => {
+          console.log('**SignalRService::startConnection : Error while establishing connection, retrying...',err);
           setTimeout(function() { this.startConnection(); }, 5000);
         });
       }

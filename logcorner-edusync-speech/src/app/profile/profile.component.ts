@@ -12,7 +12,7 @@ export class ProfileComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   name: string;
-  constructor(private msalService: MsalService, private http: HttpClient) { }
+  constructor(private msalService: MsalService) { }
 
   ngOnInit(): void {
      const account = this.msalService.instance.getAllAccounts();

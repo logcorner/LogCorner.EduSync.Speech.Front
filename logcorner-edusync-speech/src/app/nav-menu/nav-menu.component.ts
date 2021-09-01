@@ -48,7 +48,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
     console.log('**NavMenuComponent::setLoginDisplay:getAllAccounts',this.authService.instance.getAllAccounts())
     if(this.loginDisplay)
     {
-      //this.signalRService.StartConnection();
+     
       this.signalRService.StartConnection().then((observable) => {
         console.log('**NavMenuComponent::setLoginDisplay:observable',observable)
        }).catch((err) => 

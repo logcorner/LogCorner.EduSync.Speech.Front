@@ -24,7 +24,7 @@ export class SignalRService {
       console.log('**SignalRService::createConnection:token',token);
       console.log('**SignalRService::createConnection:this._hubUrl',this._hubUrl);
         this._hubConnection = new HubConnectionBuilder()
-        .withUrl(this._hubUrl ,
+        .withUrl(this._hubUrl+'?clientName=frontend' ,
           { accessTokenFactory: () => token }) 
           .configureLogging(LogLevel.Debug)
           .build();

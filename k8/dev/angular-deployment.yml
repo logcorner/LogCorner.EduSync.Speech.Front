@@ -2,24 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: front-end-deployment
+  name: speech-front-end-deployment
   namespace: dev
   labels:
-    run: front-end
-
+    version: 1.0.0
+    product: speech-front-end
+    environment: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: front-end
+      app: speech-front-end
+      env: dev
   
   template:
     metadata:
       labels:
-        run: front-end
+        app: speech-front-end
+        env: dev
     spec:
       containers:
-      - name: front-end-container
+      - name: speech-front-end
         image: logcornerhub/logcorner-edusync-speech-front
         imagePullPolicy: Never
         env:

@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: front-end-deployment
   namespace: dev
+  labels:
+    version: 1.0.0
+    product: speech-front-end
+    environment: dev
 spec:
   type: LoadBalancer
   ports:
@@ -15,4 +19,5 @@ spec:
     protocol: TCP
     name: https
   selector:
-    run: front-end
+    app: speech-front-end
+    env: dev

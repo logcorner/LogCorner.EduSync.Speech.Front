@@ -70,6 +70,7 @@ subscribe = () => {
 
 onReceived = () => {
         this._hubConnection.on('OnPublish', (topic: string, body: string ) => {
+          console.log('**SignalRService::onReceived : ...',topic, body);
             if (topic == 'ReadModelAcknowledged')  {
                 const event: EmitEvent = {
                     name : topic,

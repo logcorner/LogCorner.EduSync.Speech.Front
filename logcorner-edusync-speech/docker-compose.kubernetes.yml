@@ -9,12 +9,12 @@ services:
       context: .
       dockerfile: nginx.dockerfile
       args:
-       - configuration=kubernetes
+       - configuration=kubernetes.qa
     ports:
       - "4200:80"
       - "443:443"
     environment:
-        NODE_ENV: kubernetes
+        NODE_ENV: kubernetes.qa
     networks:
       - speech_network
 

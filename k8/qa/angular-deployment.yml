@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: speech-front-end
-        image: logcornerhub/logcorner-edusync-speech-front 
+        image: logcorner/logcorner-edusync-speech-front 
         imagePullPolicy: Never
         env:
         - name: NODE_ENV

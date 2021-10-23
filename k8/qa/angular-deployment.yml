@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: speech-front-end-deployment
-  # namespace: qa
+  namespace: qa
   labels:
     version: 1.0.0
     product: speech-front-end

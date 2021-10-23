@@ -34,7 +34,7 @@ export class SignalRService {
 
       await this.createConnection();
 
-       if (this._hubConnection.state === HubConnectionState.Disconnected){
+       if (this._hubConnection?.state === HubConnectionState.Disconnected){
       this._hubConnection
         .start()
         .then(() => {
@@ -50,7 +50,7 @@ export class SignalRService {
     }
 
     StopConnection(): void {
-      if (this._hubConnection.state === HubConnectionState.Connected) {
+      if (this._hubConnection?.state === HubConnectionState.Connected) {
         this._hubConnection.stop();
       }
     }

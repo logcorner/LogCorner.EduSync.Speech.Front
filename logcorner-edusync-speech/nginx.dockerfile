@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 ARG configuration=${configuration}
-RUN npm run build -- --output-path=./dist --configuration $configuration --base-href='/logcorner-edusync-speech'
+RUN npm run build -- --output-path=./dist --configuration $configuration 
 
 ##### Stage 2
 FROM nginx:latest

@@ -39,7 +39,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
       takeUntil(this._destroying$)
     )
     .subscribe(() => {
-      this.setLoginDisplay();
+     this.setLoginDisplay();
     });
   }
 

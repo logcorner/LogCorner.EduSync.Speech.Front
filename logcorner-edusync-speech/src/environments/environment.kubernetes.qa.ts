@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  commandAPI : 'http://localhost/api/command',
-  queryAPI : 'http://localhost/api/query',
-  hubNotificationUrl : 'http://localhost/notification/logcornerhub'
+  commandAPI : 'https://kubernetes.docker.com/speech-command-http-api/api',
+  queryAPI : 'https://kubernetes.docker.com/speech-http-query-api/api',
+  hubNotificationUrl: 'https://kubernetes.docker.com/hub-notification-server/logcornerhub'
 };

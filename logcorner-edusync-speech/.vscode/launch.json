@@ -17,6 +17,11 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Bridge to Kubernetes",
+            "type": "bridge-to-kubernetes.configuration",
+            "request": "launch"
         }
     ]
 }

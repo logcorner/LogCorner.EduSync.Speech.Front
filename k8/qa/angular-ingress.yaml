@@ -1,19 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: speech-front-end-ingress
+  namespace: qa
   annotations:
     kubernetes.io/ingress.class: nginx
-    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+  
 spec:
+  tls:
+    - hosts:
+      - kubernetes.docker.com
+      secretName: logcorner-ingress-tls
   rules:
-    - host: kubernetes.docker.internal
+    - host: kubernetes.docker.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: front-end-deployment-service
+                name: speech-front-end-service
                 port:
                   number: 80

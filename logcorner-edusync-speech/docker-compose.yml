@@ -10,12 +10,12 @@ services:
       context: .
       dockerfile: nginx.dockerfile
       args:
-       - configuration=docker
+       - configuration=${ENVIRONMENT}
     ports:
       - "4200:80"
       - "443:443"
     environment:
-        NODE_ENV: docker
+        NODE_ENV: ${ENVIRONMENT}
     networks:
       - speech_network
 

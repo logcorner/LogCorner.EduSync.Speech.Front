@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {   HttpHeaders } from '@angular/common/http';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationScheme, InteractionRequiredAuthError } from '@azure/msal-browser';
-import { protectedResources } from '../auth-config';
 
 import { User } from '../models/User';
 
@@ -19,8 +18,7 @@ export class AuthService {
     const loginRequest = {
       scopes: [...scopes],
       authenticationScheme: AuthenticationScheme.BEARER,
-      //resourceRequestMethod: method,
-      //resourceRequestUri: query ? protectedResources.todoListApi.endpoint + query : protectedResources.todoListApi.endpoint,
+     
     }
 
     return this.msalService.acquireTokenSilent({

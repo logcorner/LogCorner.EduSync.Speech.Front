@@ -29,15 +29,7 @@ export class SpeechService {
   console.log('this.http.options', this.http.options);
   console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
 
-  /* const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
-  console.log('**SpeechService:getSpeeches:accessToken', accessToken);
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-       Authorization: 'Bearer ' + accessToken
-    })
-    
-  }; */
+
 const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
   return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
       .pipe(
@@ -47,14 +39,7 @@ const httpOptions = await this.authService.setHttpOptions("GET",protectedResourc
   }
 
  async getSpeech(id: string): Promise< Observable<Speech>> {
-    /* const accessToken = await this.authService.getToken("GET",protectedResources.queryApi.scopes);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + accessToken
-      }) 
-      
-    };*/
+
     const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
     return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`,httpOptions)
       .pipe(

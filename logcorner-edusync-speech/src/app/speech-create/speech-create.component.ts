@@ -51,17 +51,7 @@ export class SpeechCreateComponent implements OnInit {
 
         this.speech.typeId = this.speech.type !== undefined ? this.speech.type.value : null;
         console.log(' this.speech: ' + JSON.stringify( this.speech));
-        /*this.speechService.createSpeech(this.speech)
-        .subscribe({
-          next: () =>
-          {
-            this.nav.navigate(['/speech']);
-          },
-          error: err => {
-            this.errorMessage = err;
-          }
-        });*/
-
+       
         this.speechService.createSpeech(this.speech).then(
           (result) =>
           {

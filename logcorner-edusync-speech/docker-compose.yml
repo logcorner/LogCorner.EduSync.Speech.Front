@@ -1,8 +1,6 @@
 
 version: '3.4'
-
 services:
-
   logcorner.edusync.speech.front:
     container_name: logcorner.edusync.speech.front
     image: ${DOCKER_REGISTRY-}/logcorner-edusync-speech-front

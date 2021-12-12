@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ErrorCode } from '../models/Error';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
 import { SpeechService } from '../services/speech.service';
@@ -35,14 +34,7 @@ export class SpeechEditComponent implements OnInit {
   }
 
   getSpeechTypes(): void {
-    /*this.speechService.getSpeechTypes()
-    .subscribe({
-      next: (values: SpeechType[]) =>
-      {
-        this.speechTypes = values;
-      },
-      error: err => this.errorMessage = err
-    });*/
+
     this.speechService.getSpeechTypes().then(
       (result) =>
       {
@@ -58,11 +50,7 @@ export class SpeechEditComponent implements OnInit {
     );
   }
   getSpeech(id: string): void {
-   /*  this.speechService.getSpeech(id)
-        .subscribe({
-          next: (value: Speech) => this.displaySpeech(value),
-          error: err => this.errorMessage = err
-        }); */
+
         this.speechService.getSpeech(id).then(
           (result) =>
           {
@@ -101,19 +89,7 @@ export class SpeechEditComponent implements OnInit {
   saveSpeech(): void {
      const p: Speech = { ...this.speech, ...this.speechForm.value };
      p.typeId = p.type !== undefined ? p.type.value : null;
-     /*this.speechService.updateSpeech(p).subscribe({
-      next: () =>
-      {
-        this.nav.navigate(['/speech']);
-      },
-      error: (err: ErrorCode ) => {
-        this.errorMessage = err.errorMessage;
-        if (err.errorCode === 5000) {
-          this.getSpeech(p.id);
-        }
-      }
-    });*/
-
+ 
     this.speechService.updateSpeech(p).then(
       (result) =>
       {

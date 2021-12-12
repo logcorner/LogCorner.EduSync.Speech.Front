@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { ErrorCode } from '../models/Error';
 import { Events } from '../models/Events';
 import { Speech } from '../models/speech-model';
 import { MediatorService } from '../services/mediator-service';
@@ -52,16 +51,7 @@ export class SpeechListComponent implements OnInit {
     const options: NgbModalOptions = { size: 'sm' };
     this.modal.open(deleteModal, options).result.then(result => {
       console.log('**SpeechListComponent::deleteSpeech:result - ', result);
-     /* this.speechService.deleteSpeech(id,version)
-         .subscribe({
-          next: (value: any) =>
-          {
-            this.speeches = this.speeches.filter(obj => obj.id !== id );
-            console.log('**SpeechListComponent::deleteSpeech:value - ', value);
-          },
-          error: (err: ErrorCode) => this.errorMessage = err.errorMessage
-        });*/
-
+     
         this.speechService.deleteSpeech(id,version).then(
           (result) =>
           {

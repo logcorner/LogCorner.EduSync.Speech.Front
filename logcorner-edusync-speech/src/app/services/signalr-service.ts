@@ -8,11 +8,9 @@ import { MediatorService } from './mediator-service';
 
 @Injectable()
 export class SignalRService {
-      // tslint:disable-next-line: variable-name
-      private _hubConnection: HubConnection;
+       private _hubConnection: HubConnection;
 
-    // tslint:disable-next-line: variable-name
-    private _hubUrl = environment.hubNotificationUrl;
+       private _hubUrl = environment.hubNotificationUrl;
     constructor(private mediatorService: MediatorService, private authService: AuthService) {
 
     }

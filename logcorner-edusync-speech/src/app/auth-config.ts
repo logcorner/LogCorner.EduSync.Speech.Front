@@ -5,12 +5,12 @@
  * in app.module.ts file.
  */
 
-
- import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
+import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
 import { environment } from 'src/environments/environment';
 
  const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
  
+ const tenantName = environment.azureAdB2C.tenantName;
  /**
   * Enter here the user flows and custom policies for your B2C application,
   * To learn more about user flows, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
@@ -23,13 +23,13 @@ import { environment } from 'src/environments/environment';
      },
      authorities: {
          signUpSignIn: {
-             authority: "https://datasynchrob2c.b2clogin.com/datasynchrob2c.onmicrosoft.com/B2C_1_SignUpIn",
+             authority: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/B2C_1_SignUpIn`,
          },
          editProfile: {
-             authority: "https://datasynchrob2c.b2clogin.com/datasynchrob2c.onmicrosoft.com/B2C_1_ProfileEdit"
+             authority: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/B2C_1_ProfileEdit`
          }
      },
-     authorityDomain: "datasynchrob2c.b2clogin.com"
+     authorityDomain: `${tenantName}.b2clogin.com`
  };
  
  /**
@@ -39,7 +39,7 @@ import { environment } from 'src/environments/environment';
   */
   export const msalConfig: Configuration = {
      auth: {
-         clientId: 'b2eb11d2-ee05-486b-9f2c-e6daf595aea7', // This is the ONLY mandatory field that you need to supply.
+         clientId: environment.azureAdB2C.clientId,//'b2eb11d2-ee05-486b-9f2c-e6daf595aea7', // This is the ONLY mandatory field that you need to supply.
          authority: b2cPolicies.authorities.signUpSignIn.authority, // Defaults to "https://login.microsoftonline.com/common"
          knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted.
          redirectUri: '/', // Points to window.location.origin. You must register this URI on Azure portal/App Registration.
@@ -67,15 +67,17 @@ export const protectedResources = {
 
   commandApi: {
     endpoint: environment.commandAPI,
-    scopes: ["https://datasynchrob2c.onmicrosoft.com/command/api/demo.read"],
+    scopes: [`https://${tenantName}.onmicrosoft.com/command/api/Speech.Create`,
+             `https://${tenantName}.onmicrosoft.com/command/api/Speech.Edit`,
+             `https://${tenantName}.onmicrosoft.com/command/api/Speech.Delete`],
   },
   queryApi: {
     endpoint: environment.queryAPI,
-    scopes: ["https://datasynchrob2c.onmicrosoft.com/query/api/Speech.List"],
+    scopes: [`https://${tenantName}.onmicrosoft.com/query/api/Speech.List`],
   },
   signalrServer: {
     endpoint: environment.hubNotificationUrl,
-    scopes: ["https://datasynchrob2c.onmicrosoft.com/signalr/hub/event-notifier"],
+    scopes: [`https://${tenantName}.onmicrosoft.com/signalr/hub/event-notifier`],
   },
 }
 

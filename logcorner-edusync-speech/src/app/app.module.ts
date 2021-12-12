@@ -6,15 +6,14 @@ import { SpeechListComponent } from './speech-list/speech-list.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
 import { MediatorService } from './services/mediator-service';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+import { MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration } from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { msalConfig, loginRequest, protectedResources } from './auth-config';
 
-import { Configuration } from 'msal';
 import { ProfileComponent } from './profile/profile.component';
 import { SpeechService } from './services/speech.service';
 import { AlertService } from './services/alert.service';

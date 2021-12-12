@@ -11,7 +11,7 @@ ARG configuration=${configuration}
 RUN npm run build -- --output-path=./dist --configuration $configuration 
 
 ##### Stage 2
-FROM nginx:latest
+FROM nginx:1.21.4
 VOLUME /var/cache/nginx
 COPY --from=node /app/dist /usr/share/nginx/html
 COPY ./config/nginx/nginx.conf /etc/nginx/conf.d/default.conf

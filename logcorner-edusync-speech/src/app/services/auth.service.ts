@@ -29,7 +29,7 @@ export class AuthService {
         return result.accessToken;
       })
       .catch((error) => {
-        console.log(error)
+        //console.log(error)
         if (InteractionRequiredAuthError.isInteractionRequiredError(error.errorCode)) {
           this.msalService.acquireTokenPopup(loginRequest).toPromise().then((result) => {
             return result.accessToken;
@@ -40,7 +40,7 @@ export class AuthService {
   
    async setHttpOptions(method :string, scopes : string[],body ?: any) {
     const accessToken = await this.getToken(method, scopes);
-    console.log('**SpeechService:getSpeeches:accessToken', accessToken);
+    //console.log('**SpeechService:getSpeeches:accessToken', accessToken);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

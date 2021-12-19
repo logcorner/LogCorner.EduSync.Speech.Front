@@ -38,7 +38,7 @@ export class SpeechCreateComponent implements OnInit {
           next: (value: SpeechType[]) =>
           {
             this.speechTypes = value
-            console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
+            //console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
           },
           error: err => this.errorMessage = err
         });
@@ -50,7 +50,7 @@ export class SpeechCreateComponent implements OnInit {
         this.speech = this.speechForm.value ;
 
         this.speech.typeId = this.speech.type !== undefined ? this.speech.type.value : null;
-        console.log(' this.speech: ' + JSON.stringify( this.speech));
+        //console.log(' this.speech: ' + JSON.stringify( this.speech));
        
         this.speechService.createSpeech(this.speech).then(
           (result) =>
@@ -59,7 +59,7 @@ export class SpeechCreateComponent implements OnInit {
               next: (value: Speech[]) =>
               {
                 this.nav.navigate(['/speech']);
-                console.log('**SpeechListComponent::createSpeech:speech - ',value);
+                //console.log('**SpeechListComponent::createSpeech:speech - ',value);
               },
               error: err => this.errorMessage = err
             });
@@ -68,11 +68,11 @@ export class SpeechCreateComponent implements OnInit {
       }
     else {
       this.errorMessage = 'Please correct the validation errors.';
-      console.log(' this.errorMessage: ' + JSON.stringify( this.errorMessage));
+      //console.log(' this.errorMessage: ' + JSON.stringify( this.errorMessage));
     }
 
-    console.log(this.speechForm);
-    console.log('Saved: ' + JSON.stringify(this.speechForm.value));
+    //console.log(this.speechForm);
+    //console.log('Saved: ' + JSON.stringify(this.speechForm.value));
   }
   populateTestData(): void {
     const speechType = this.speechTypes?.find(x => x.value === 1);

@@ -22,12 +22,12 @@ export class SpeechListComponent implements OnInit {
     this.getSpeeches();
    
     this.eventbus = this.mediatorService.on(Events.topic,(data : any) => {
-      console.log('received from hub: ', data)
+      //console.log('received from hub: ', data)
       this.refreshSpeeches();
     })
   }
   refreshSpeeches() : void{
-    console.log('**SpeechListComponent::refreshSpeeches');
+    //console.log('**SpeechListComponent::refreshSpeeches');
     this.getSpeeches();
   }
 
@@ -39,9 +39,13 @@ export class SpeechListComponent implements OnInit {
           next: (value: Speech[]) =>
           {
             this.speeches = value;
-            console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
+            //console.log('**SpeechListComponent::getSpeeches:speeches - ', this.speeches);
           },
-          error: err => this.errorMessage = err
+          error: err => 
+          {
+            this.errorMessage = err;
+            console.log('**SpeechListComponent::getSpeeches:this.errorMessage', this.errorMessage);
+          }
         });
       }
     );
@@ -50,7 +54,7 @@ export class SpeechListComponent implements OnInit {
   deleteSpeech(id: string, version : number, deleteModal): void{
     const options: NgbModalOptions = { size: 'sm' };
     this.modal.open(deleteModal, options).result.then(result => {
-      console.log('**SpeechListComponent::deleteSpeech:result - ', result);
+      //console.log('**SpeechListComponent::deleteSpeech:result - ', result);
      
         this.speechService.deleteSpeech(id,version).then(
           (result) =>
@@ -59,7 +63,7 @@ export class SpeechListComponent implements OnInit {
               next: (value: any) =>
               {
                 this.speeches = this.speeches.filter(obj => obj.id !== id );
-            console.log('**SpeechListComponent::deleteSpeech:value - ', value);
+            //console.log('**SpeechListComponent::deleteSpeech:value - ', value);
               },
               error: err => this.errorMessage = err
             });
@@ -67,7 +71,7 @@ export class SpeechListComponent implements OnInit {
         );
 
     }, reason =>   {
-         console.log(`Dismissed: ${reason}`);
+         //console.log(`Dismissed: ${reason}`);
     } );
   }
 }

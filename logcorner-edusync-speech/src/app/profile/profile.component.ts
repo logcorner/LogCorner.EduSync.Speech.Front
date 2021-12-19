@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
      const account = this.msalService.instance.getAllAccounts();
     this.name = account[0].name; 
-    console.log('**ProfileComponent::ngOnInit:account[0]',account[0]);
+    //console.log('**ProfileComponent::ngOnInit:account[0]',account[0]);
    
   }
 }

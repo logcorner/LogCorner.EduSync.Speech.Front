@@ -45,16 +45,11 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-    console.log('**NavMenuComponent::setLoginDisplay:getAllAccounts',this.authService.instance.getAllAccounts())
+    console.log('**NavMenuComponent::setLoginDisplay:this.loginDisplay',this.loginDisplay)
     if(this.loginDisplay)
     {
-     
-      this.signalRService.StartConnection().then((observable) => {
-        console.log('**NavMenuComponent::setLoginDisplay:observable',observable)
-       }).catch((err) => 
-       {
-         console.log('**NavMenuComponent::setLoginDisplay:err',err)
-       });
+      console.log('**NavMenuComponent::setLoginDisplay:StartConnection')
+      this.signalRService.StartConnection();
     }
     else
     {
@@ -68,7 +63,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
         this.authService.loginPopup({...this.msalGuardConfig.authRequest, ...userFlowRequest} as PopupRequest)
           .subscribe((response: AuthenticationResult) => {
             this.authService.instance.setActiveAccount(response.account);
-            console.log('**NavMenuComponent::response.account:',response.account);
+            //console.log('**NavMenuComponent::response.account:',response.account);
           });
       } else {
         this.authService.loginPopup(userFlowRequest)

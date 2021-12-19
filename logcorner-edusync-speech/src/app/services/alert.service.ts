@@ -5,12 +5,12 @@ import { Alert } from '../models/Alert';
 export class AlertService {
 
   addError(message: string, debug?: string): void{
-      console.log(message, debug, 'danger')
+      //console.log(message, debug, 'danger')
   }
 
   addSuccess(message: string, debug?: string): void {
    
-    console.log(message, debug, 'success')
+    //console.log(message, debug, 'success')
   }
 
 }

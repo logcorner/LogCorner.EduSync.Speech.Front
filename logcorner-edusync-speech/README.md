@@ -35,3 +35,4 @@ npm install --save @ng-bootstrap/ng-bootstrap
 
 docker-compose build --build-arg configuration=docker 
 docker-compose   --env-file config/docker/.env.docker build
+docker-compose   --env-file config/docker/.env.docker up

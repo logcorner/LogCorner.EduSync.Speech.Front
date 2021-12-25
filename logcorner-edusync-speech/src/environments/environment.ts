@@ -7,10 +7,7 @@ export const environment = {
   commandAPI : 'https://localhost:6001/api',
   queryAPI : 'http://localhost:7000/api',
   hubNotificationUrl :'http://localhost:5000/logcornerhub', 
-  /*  commandAPI : 'http://localhost:8080/api',
-  queryAPI : 'http://localhost:8082/api',
-  hubNotificationUrl : 'http://localhost:8081/logcornerhub', */
-  azureAdB2C : {
+   azureAdB2C : {
     clientId: 'b2eb11d2-ee05-486b-9f2c-e6daf595aea7',
     tenantName :'datasynchrob2c'
   }

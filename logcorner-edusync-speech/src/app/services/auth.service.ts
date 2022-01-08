@@ -4,6 +4,7 @@ import { MsalService } from '@azure/msal-angular';
 import { AuthenticationScheme, InteractionRequiredAuthError } from '@azure/msal-browser';
 
 import { User } from '../models/User';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,10 @@ export class AuthService {
 
   }
   async getToken(method:  string, scopes : string[], query?:string)  {
-
+    if(!environment.isAuthenticationEnabled)
+    {
+      return '';
+    }
     const loginRequest = {
       scopes: [...scopes],
       authenticationScheme: AuthenticationScheme.BEARER,
@@ -29,7 +33,7 @@ export class AuthService {
         return result.accessToken;
       })
       .catch((error) => {
-        //console.log(error)
+       
         if (InteractionRequiredAuthError.isInteractionRequiredError(error.errorCode)) {
           this.msalService.acquireTokenPopup(loginRequest).toPromise().then((result) => {
             return result.accessToken;
@@ -40,7 +44,7 @@ export class AuthService {
   
    async setHttpOptions(method :string, scopes : string[],body ?: any) {
     const accessToken = await this.getToken(method, scopes);
-    //console.log('**SpeechService:getSpeeches:accessToken', accessToken);
+   
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

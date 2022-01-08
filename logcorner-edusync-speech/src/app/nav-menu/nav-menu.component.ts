@@ -6,6 +6,7 @@ import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfigur
 import { InteractionType, InteractionStatus, PopupRequest, RedirectRequest, AuthenticationResult } from '@azure/msal-browser';
 import { SignalRService } from '../services/signalr-service';
 import { b2cPolicies } from '../auth-config';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nav-menu',
@@ -16,6 +17,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
 
   isIframe = false;
   loginDisplay = false;
+  isAuthenticationEnabled =false;
   private readonly _destroying$ = new Subject<void>();
 
   constructor(
@@ -28,7 +30,9 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
 
   ngOnInit(): void {
     this.isIframe = window !== window.parent && !window.opener;
-
+    this.isAuthenticationEnabled = environment.isAuthenticationEnabled;
+    if(this.isAuthenticationEnabled)
+    {
     /**
      * You can subscribe to MSAL events as shown below. For more info,
      * visit: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-angular/docs/v2-docs/events.md
@@ -41,6 +45,11 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
     .subscribe(() => {
      this.setLoginDisplay();
     });
+  }
+  else
+  {
+    this.signalRService.StartConnection();
+  }
   }
 
   setLoginDisplay() {

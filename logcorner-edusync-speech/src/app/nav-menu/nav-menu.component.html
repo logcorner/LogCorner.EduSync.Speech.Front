@@ -15,10 +15,10 @@
     </ul>
   </div>
   <div>
-    <button *ngIf="!loginDisplay" class="btn btn-primary btn-large" role="button" (click)="login()">sign in</button>
+    <button *ngIf="!loginDisplay&&isAuthenticationEnabled" class="btn btn-primary btn-large" role="button" (click)="login()">sign in</button>
 
   </div>
-  <div>
+  <div *ngIf="isAuthenticationEnabled">
     <ul *ngIf="loginDisplay" class="navbar-nav mr-auto">
       <li>
         <a class="nav-item nav-link" [routerLink]="['/profile']" [routerLinkActive]="['link-active']">Profile</a>

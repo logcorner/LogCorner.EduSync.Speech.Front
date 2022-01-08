@@ -1,66 +1,88 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { protectedResources } from '../auth-config';
 import { EmitEvent } from '../models/EmitEvent';
+import { AuthService } from './auth.service';
 import { MediatorService } from './mediator-service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SignalRService {
-    private _hubConnection: HubConnection;  
-    private _hubUrl =environment.hubNotificationUrl;
-    constructor(private mediatorService : MediatorService) {  
-      this.createConnection();  
-      this.startConnection();  
-    }  
-    
-    private createConnection() {  
-        this._hubConnection = new HubConnectionBuilder()  
-        .withUrl(this._hubUrl)  
-        .build();  
-    }  
-    
-    private startConnection(): void {  
+       private _hubConnection: HubConnection;
 
-      if(this._hubConnection.state === HubConnectionState.Disconnected){
-      this._hubConnection  
-        .start()  
-        .then(() => {  
-          console.log('**SignalRService::startConnection : connection started');  
-          this.subscribe();
-          this.onReceived();
-        })  
-        .catch(() => {  
-          console.log('**SignalRService::startConnection : Error while establishing connection, retrying...');  
-          setTimeout(function () { this.startConnection(); }, 5000);  
-        });  
+       private _hubUrl = environment.hubNotificationUrl;
+      constructor(private mediatorService: MediatorService, private authService: AuthService) {
       }
-    }  
-    
-    onDisconnected =() => 
+ 
+    private  createConnection() {
+     
+      let accessToken = ''
+       this.authService.getToken("POST",protectedResources.signalrServer.scopes).
+      then((observable) => {
+        console.log('**createConnection::setLoginDisplay:then((observable)',observable)
+        accessToken = `${observable}`;
+        console.log('**SignalRService::createConnection:accessToken',accessToken);
+     
+        this._hubConnection = new HubConnectionBuilder()
+        .withUrl(this._hubUrl+'?clientName=frontend' ,
+          { accessTokenFactory: () => accessToken }) 
+          .configureLogging(LogLevel.Debug)
+          .build();
+
+          this._hubConnection
+          .start()
+          .then(() => {
+            console.log('**SignalRService::createConnection : connection started');
+            this.subscribe();
+            this.onReceived();
+          })
+          .catch((err) => {
+            console.log('**SignalRService::createConnection : Error while establishing connection, retrying...',err);
+          });
+       }).catch((err) => 
+       {
+         console.log('**createConnection::setLoginDisplay:err',err)
+       });
+     }
+
+     StartConnection() {
+      console.log('**SignalRService::StartConnection.this._hubConnection',this._hubConnection);
+      console.log('**SignalRService::StartConnection.HubConnectionState',this._hubConnection?.state);
+ 
+      if (this._hubConnection === undefined && this._hubConnection?.state !== HubConnectionState.Connected){
+        this.createConnection();
+      }
+     }  
+
+    StopConnection(): void {
+      if (this._hubConnection?.state === HubConnectionState.Connected) {
+        this._hubConnection.stop();
+      }
+    }
+/*onDisconnected = () =>
     {
-        this._hubConnection.on('', (error :any) => {
-          if(error !== null)          {
-            this.startConnection();
+         this._hubConnection.on('', (error: any) => {
+          if (error !== null)          {
+            this.StartConnection();
           }
      });
-     console.log('**SignalRService::onDisconnected : connection closed');  
-    }  
+        console.log('**SignalRService::onDisconnected : connection closed'); 
+    }*/
 
-    subscribe =() => {
+subscribe = () => {
         this._hubConnection.invoke('Subscribe', 'ReadModelAcknowledged');
-    }  
+    } 
 
-    onReceived =() => { 
-        this._hubConnection.on('OnPublish',(topic :string, body : string ) => {
-            if(topic == 'ReadModelAcknowledged')  {
-                let event : EmitEvent = {
+onReceived = () => {
+        this._hubConnection.on('OnPublish', (topic: string, body: string ) => {
+          console.log('**SignalRService::onReceived : ...',topic, body);
+            if (topic == 'ReadModelAcknowledged')  {
+                const event: EmitEvent = {
                     name : topic,
                     value : body
-                }
+                };
                 this.mediatorService.emit(event);
             }
-        })
+        });
     }
 }

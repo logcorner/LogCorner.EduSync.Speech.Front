@@ -6,10 +6,43 @@ import { SpeechListComponent } from './speech-list/speech-list.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SpeechService } from './services/speech.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
 import { MediatorService } from './services/mediator-service';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration } from '@azure/msal-angular';
+import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
+import { msalConfig, loginRequest, protectedResources } from './auth-config';
+
+import { ProfileComponent } from './profile/profile.component';
+import { SpeechService } from './services/speech.service';
+import { AlertService } from './services/alert.service';
+import { AuthService } from './services/auth.service';
+import { SignalRService } from './services/signalr-service';
+
+
+ export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication(msalConfig);
+}
+
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<string, Array<string>>();
+
+  protectedResourceMap.set(protectedResources.commandApi.endpoint, protectedResources.commandApi.scopes);
+
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap
+  };
+}
+
+
+ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return { 
+    interactionType: InteractionType.Redirect,
+    authRequest: loginRequest
+  };
+}
 
 @NgModule({
   declarations: [
@@ -17,6 +50,8 @@ import { MediatorService } from './services/mediator-service';
     SpeechListComponent,
     SpeechEditComponent,
     SpeechCreateComponent,
+    NavMenuComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,12 +59,26 @@ import { MediatorService } from './services/mediator-service';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
-  ],
+    NgbModule,
+    MsalModule
+   
+    ],
   providers: [
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory
+    },
+    AlertService,
+    AuthService,
+    MsalService,
+    MediatorService,
     SpeechService,
-    MediatorService
+    SignalRService
    ],
-  bootstrap: [AppComponent]
+   bootstrap: [AppComponent]
 })
 export class AppModule { }

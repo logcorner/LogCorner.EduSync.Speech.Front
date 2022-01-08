@@ -1,28 +1,19 @@
 
-# This can be used to run a production version of the Angular and Node containers
-# See the readme.md for details on changes that are required in the Angular service
-
-# Run docker-compose -f docker-compose.prod.yml build
-# Run docker-compose up
-# Live long and prosper
-
-version: '3.1'
-
+version: '3.4'
 services:
-
   logcorner.edusync.speech.front:
     container_name: logcorner.edusync.speech.front
-    image: logcorner-edusync-speech
+    image: ${DOCKER_REGISTRY-}/logcorner-edusync-speech-front
     build:
       context: .
       dockerfile: nginx.dockerfile
       args:
-       - buildenv=prod
+       - configuration=${ENVIRONMENT}
     ports:
       - "4200:80"
       - "443:443"
     environment:
-        NODE_ENV: prod
+        NODE_ENV: ${ENVIRONMENT}
     networks:
       - speech_network
 

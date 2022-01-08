@@ -1,67 +1,79 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
-import { environment } from 'src/environments/environment';
 import { SpeechType } from '../models/SpeechType';
 import { ErrorCode } from '../models/Error';
+import { AuthService } from './auth.service';
+import { protectedResources } from '../auth-config';
 
 @Injectable()
 export class SpeechService {
-  private queryAPI = environment.queryAPI;
-  private commandAPI = environment.commandAPI;
+  constructor(private http: HttpClient,  private authService: AuthService) { }
 
-  constructor(private http: HttpClient) { }
+ async getSpeechTypes(): Promise<Observable<SpeechType[]>> {
+    const url = `${protectedResources.queryApi.endpoint}/speech/types`;
 
-  getSpeechTypes(): Observable<SpeechType[]> {
-    const url = `${this.queryAPI}/speech/types/`;
-    return this.http.get<SpeechType[]>(url)
+  const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
+
+    return this.http.get<SpeechType[]>(url,httpOptions)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
         catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
    }
 
-  getSpeeches(): Observable<Speech[]> {
-    return this.http.get<Speech[]>(`${this.queryAPI}/speech`)
+  
+
+  async getSpeeches(): Promise< Observable<Speech[]>> {
+  console.log('this.http.options', this.http.options);
+  console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
+
+
+const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
+  return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speeches`, speeches)),
         catchError(this.handleError<Speech[]>('getSpeeches')));
+
   }
 
-  getSpeech(id: string): Observable<Speech> {
-    return this.http.get<Speech>(`${this.queryAPI}/speech/${id}`)
+ async getSpeech(id: string): Promise< Observable<Speech>> {
+
+    const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
+    return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`,httpOptions)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
         catchError(this.handleError<Speech>('getSpeech' )));
   }
 
-  updateSpeech(speech: Speech): Observable<any> {
-    return this.http.put(`${this.commandAPI}/speech`, speech)
+ async updateSpeech(speech: Speech): Promise< Observable<any>> {
+
+    const httpOptions = await this.authService.setHttpOptions("PUT",protectedResources.commandApi.scopes);
+    return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech, httpOptions)
     .pipe(
       tap(result => console.log(`update speech`, result)),
       catchError(this.handleError('updateSpeech' )));
    }
 
-   createSpeech(speech: Speech): Observable<any> {
-       return this.http.post(`${this.commandAPI}/speech`, speech)
+ async createSpeech(speech: Speech): Promise< Observable<any>> {
+
+    const httpOptions = await this.authService.setHttpOptions("POST",protectedResources.commandApi.scopes);
+       return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech,httpOptions)
        .pipe(
         tap(result => console.log(`create speech`, result)),
         catchError(this.handleError('createSpeech' )));
   }
 
-  deleteSpeech(id: string, version : number): Observable<any>{
-    let body : any= {
-      id :id,
-      version : version
-    }
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body : body
+ async deleteSpeech(id: string, version: number): Promise< Observable<any>>{
+  
+    const body: any = {
+      id,
+      version
     };
-    return this.http.delete(`${this.commandAPI}/speech/`,httpOptions)
+
+    const httpOptions = await this.authService.setHttpOptions("DELETE",protectedResources.commandApi.scopes,body);
+    return this.http.delete(`${protectedResources.commandApi.endpoint}/speech/`, httpOptions)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),
         catchError(this.handleError('deleteSpeech' )));

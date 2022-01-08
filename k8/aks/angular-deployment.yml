@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: speech-front-end-deployment
+  namespace: aks
+  labels:
+    version: 1.0.0
+    product: speech-front-end
+    environment: aks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speech-front-end
+      env: aks
+  
+  template:
+    metadata:
+      labels:
+        app: speech-front-end
+        env: aks
+    spec:
+      containers:
+      - name: speech-front-end
+        image: acrlogcorner.azurecr.io/logcorner-edusync-speech-front:1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: "production"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+          protocol: TCP
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+       - name: regsecret 
+    

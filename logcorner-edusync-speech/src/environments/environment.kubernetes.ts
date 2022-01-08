@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
-  commandAPI : 'http://localhost:8080/api',
-  queryAPI : 'http://localhost:8082/api',
+  commandAPI : 'http://localhost:30666/api',
+  queryAPI : 'http://localhost:30591/api',
   isAuthenticationEnabled: false,
-  hubNotificationUrl : 'http://localhost:8081/logcornerhub',
+  hubNotificationUrl : 'http://localhost:31635/logcornerhub',
   azureAdB2C : {
     clientId: '[clientId]',
     tenantName :'[tenantName]'

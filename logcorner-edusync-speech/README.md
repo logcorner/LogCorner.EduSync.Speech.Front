@@ -30,3 +30,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 npm install lodash ngx-loading --save
 npm install  --save bootstrap 
 npm install --save @ng-bootstrap/ng-bootstrap
+
+
+
+docker-compose build --build-arg configuration=docker 
+docker-compose   --env-file config/docker/.env.docker build
+docker-compose   --env-file config/docker/.env.docker up

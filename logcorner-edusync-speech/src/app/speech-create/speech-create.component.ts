@@ -31,39 +31,48 @@ export class SpeechCreateComponent implements OnInit {
   }
 
   getSpeechTypes(): void {
-    this.speechService.getSpeechTypes()
-    .subscribe({
-      next: (values: SpeechType[]) =>
+    this.speechService.getSpeechTypes().then(
+      (result) =>
       {
-        this.speechTypes = values;
-      },
-      error: err => this.errorMessage = err
-    });
+        result.subscribe({
+          next: (value: SpeechType[]) =>
+          {
+            this.speechTypes = value
+            //console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
+          },
+          error: err => this.errorMessage = err
+        });
+      }
+    );
   }
   save(): void {
     if (this.speechForm.valid) {
         this.speech = this.speechForm.value ;
 
         this.speech.typeId = this.speech.type !== undefined ? this.speech.type.value : null;
-        console.log(' this.speech: ' + JSON.stringify( this.speech));
-        this.speechService.createSpeech(this.speech)
-        .subscribe({
-          next: () =>
+        //console.log(' this.speech: ' + JSON.stringify( this.speech));
+       
+        this.speechService.createSpeech(this.speech).then(
+          (result) =>
           {
-            this.nav.navigate(['/speech']);
-          },
-          error: err => {
-            this.errorMessage = err;
+            result.subscribe({
+              next: (value: Speech[]) =>
+              {
+                this.nav.navigate(['/speech']);
+                //console.log('**SpeechListComponent::createSpeech:speech - ',value);
+              },
+              error: err => this.errorMessage = err
+            });
           }
-        });
+        );
       }
     else {
       this.errorMessage = 'Please correct the validation errors.';
-      console.log(' this.errorMessage: ' + JSON.stringify( this.errorMessage));
+      //console.log(' this.errorMessage: ' + JSON.stringify( this.errorMessage));
     }
 
-    console.log(this.speechForm);
-    console.log('Saved: ' + JSON.stringify(this.speechForm.value));
+    //console.log(this.speechForm);
+    //console.log('Saved: ' + JSON.stringify(this.speechForm.value));
   }
   populateTestData(): void {
     const speechType = this.speechTypes?.find(x => x.value === 1);

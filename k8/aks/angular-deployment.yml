@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: speech-front-end-deployment
-  namespace: aks
+  #namespace: aks
   labels:
     version: 1.0.0
     product: speech-front-end
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: speech-front-end
-        image: acrlogcorner.azurecr.io/logcorner-edusync-speech-front:1.0.0
+        image: logcornerhub/logcorner-edusync-speech-front 
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
@@ -35,6 +35,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      imagePullSecrets:
-       - name: regsecret 
+      # imagePullSecrets:
+      #  - name: regsecret 
     

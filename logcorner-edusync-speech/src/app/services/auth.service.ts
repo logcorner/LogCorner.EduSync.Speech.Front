@@ -15,6 +15,8 @@ export class AuthService {
 
   }
   async getToken(method:  string, scopes : string[], query?:string)  {
+
+    console.log('**AuthService::getToken:isAuthenticationEnabled =',environment.isAuthenticationEnabled);
     if(!environment.isAuthenticationEnabled)
     {
       return '';

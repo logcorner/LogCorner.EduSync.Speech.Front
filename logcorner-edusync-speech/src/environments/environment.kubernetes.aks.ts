@@ -4,8 +4,9 @@ export const environment = {
   queryAPI : 'http://localhost:30591/api',
   isAuthenticationEnabled: true,
   hubNotificationUrl : 'https://kubernetes.agic.com/hub-notification-server/logcornerhub',
+  //hubNotificationUrl : 'https://localhost:5001/hub-notification-server/logcornerhub',
   azureAdB2C : {
-    clientId: '5ea677-0470-423f-8013-e58c37142c80',
-    tenantName :'datasynchrob2c'
+    clientId: 'b11d2-ee05-486b-9f2c-e6daf595aea7',
+    tenantName :'atasynchrob2c'
   }
 };

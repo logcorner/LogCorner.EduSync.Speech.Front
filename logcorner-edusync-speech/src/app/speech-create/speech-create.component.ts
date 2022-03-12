@@ -38,7 +38,7 @@ export class SpeechCreateComponent implements OnInit {
           next: (value: SpeechType[]) =>
           {
             this.speechTypes = value
-            //console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
+            console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
           },
           error: err => this.errorMessage = err
         });

@@ -46,7 +46,7 @@ export class AuthService {
   
    async setHttpOptions(method :string, scopes : string[],body ?: any) {
     const accessToken = await this.getToken(method, scopes);
-   
+    console.log('**AuthService::setHttpOptions:accessToken =',accessToken);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

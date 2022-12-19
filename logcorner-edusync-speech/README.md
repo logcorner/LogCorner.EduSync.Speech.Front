@@ -34,5 +34,19 @@ npm install --save @ng-bootstrap/ng-bootstrap
 
 
 docker-compose build --build-arg configuration=docker 
+
 docker-compose   --env-file config/docker/.env.docker build
 docker-compose   --env-file config/docker/.env.docker up
+
+docker-compose   --env-file config/docker/.env.kubernetes build
+docker-compose   --env-file config/docker/.env.kubernetes.qa build
+
+
+docker-compose   --env-file config/docker/.env.kubernetes up
+
+
+ng serve --configuration="kubernetes.aks"
+
+
+
+https://kubernetes.docker.com/

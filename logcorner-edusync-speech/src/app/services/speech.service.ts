@@ -33,8 +33,8 @@ export class SpeechService {
 const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
   return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
       .pipe(
-        tap(speeches => console.log(`fetched speeches`, speeches)),
-        catchError(this.handleError<Speech[]>('getSpeeches')));
+        tap(speeches => console.log(`fetched speeches`, speeches)));/*,
+        catchError(this.handleError<Speech[]>('getSpeeches')));*/
 
   }
 
@@ -82,7 +82,9 @@ const httpOptions = await this.authService.setHttpOptions("GET",protectedResourc
   private handleError<T>(operation = 'operation'): any  {
     return (httpErrorResponse: HttpErrorResponse): Observable<T> => {
       console.error(HttpErrorResponse);
-      console.log(`${operation} failed: ${httpErrorResponse.message}`);
+      console.log(`${operation} failed - message: ${httpErrorResponse.message}`);
+
+      console.log(`${operation} failed - httpErrorResponse:`, httpErrorResponse);
       let result: ErrorCode;
       if (httpErrorResponse.error === null)
       {

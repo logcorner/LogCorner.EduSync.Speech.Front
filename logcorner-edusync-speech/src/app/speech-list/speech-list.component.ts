@@ -22,7 +22,7 @@ export class SpeechListComponent implements OnInit {
     this.getSpeeches();
    
     this.eventbus = this.mediatorService.on(Events.topic,(data : any) => {
-      //console.log('received from hub: ', data)
+      console.log('received from hub: ', data)
       this.refreshSpeeches();
     })
   }
@@ -32,6 +32,7 @@ export class SpeechListComponent implements OnInit {
   }
 
   getSpeeches(): void {
+    this.errorMessage = '';
     this.speechService.getSpeeches().then(
       (result) =>
       {

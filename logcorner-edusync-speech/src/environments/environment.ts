@@ -9,8 +9,8 @@ export const environment = {
   isAuthenticationEnabled: false,
   hubNotificationUrl :'http://localhost:5000/logcornerhub', 
    azureAdB2C : {
-    clientId: '[clientId]',
-    tenantName :'[tenantName]'
+    clientId: '0894f020-5cec-428d-9f83-324ee6511887',
+    tenantName :'workshopb2clogcorner'
   }
 };
 

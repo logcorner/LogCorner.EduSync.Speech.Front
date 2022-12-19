@@ -15,6 +15,7 @@ export class AuthService {
 
   }
   async getToken(method:  string, scopes : string[], query?:string)  {
+    console.log('**AuthService::getToken:isAuthenticationEnabled =',environment.isAuthenticationEnabled);
     if(!environment.isAuthenticationEnabled)
     {
       return '';
@@ -22,7 +23,6 @@ export class AuthService {
     const loginRequest = {
       scopes: [...scopes],
       authenticationScheme: AuthenticationScheme.BEARER,
-     
     }
 
     return this.msalService.acquireTokenSilent({
@@ -44,7 +44,7 @@ export class AuthService {
   
    async setHttpOptions(method :string, scopes : string[],body ?: any) {
     const accessToken = await this.getToken(method, scopes);
-   
+    console.log('**AuthService::setHttpOptions:accessToken =',accessToken);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

@@ -15,8 +15,7 @@ export class SignalRService {
       }
  
     private  createConnection() {
-     
-      let accessToken = ''
+       let accessToken = ''
        this.authService.getToken("POST",protectedResources.signalrServer.scopes).
       then((observable) => {
         console.log('**createConnection::setLoginDisplay:then((observable)',observable)
@@ -26,6 +25,7 @@ export class SignalRService {
         this._hubConnection = new HubConnectionBuilder()
         .withUrl(this._hubUrl+'?clientName=frontend' ,
           { accessTokenFactory: () => accessToken }) 
+          .withAutomaticReconnect([4 ,8, 16, 32, 64, 128 ,256,2000, 10000, 30000])
           .configureLogging(LogLevel.Debug)
           .build();
 
@@ -48,7 +48,6 @@ export class SignalRService {
      StartConnection() {
       console.log('**SignalRService::StartConnection.this._hubConnection',this._hubConnection);
       console.log('**SignalRService::StartConnection.HubConnectionState',this._hubConnection?.state);
- 
       if (this._hubConnection === undefined && this._hubConnection?.state !== HubConnectionState.Connected){
         this.createConnection();
       }
@@ -59,23 +58,16 @@ export class SignalRService {
         this._hubConnection.stop();
       }
     }
-/*onDisconnected = () =>
-    {
-         this._hubConnection.on('', (error: any) => {
-          if (error !== null)          {
-            this.StartConnection();
-          }
-     });
-        console.log('**SignalRService::onDisconnected : connection closed'); 
-    }*/
 
 subscribe = () => {
         this._hubConnection.invoke('Subscribe', 'ReadModelAcknowledged');
     } 
 
 onReceived = () => {
-        this._hubConnection.on('OnPublish', (topic: string, body: string ) => {
-          console.log('**SignalRService::onReceived : ...',topic, body);
+        this._hubConnection.on('OnPublish', (topic: string,header : any, body: any ) => {
+          console.log('**SignalRService::onReceived:topic : ...',topic);
+          console.log('**SignalRService::onReceived:header : ...',header);
+          console.log('**SignalRService::onReceived:body : ...',body);
             if (topic == 'ReadModelAcknowledged')  {
                 const event: EmitEvent = {
                     name : topic,

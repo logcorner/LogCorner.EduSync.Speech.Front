@@ -7,7 +7,7 @@
           <p class="lead">This is a repository of speeches</p>
         </div>
  
-        
+         Speeches
         <a [routerLink]="['/speech', 'new']" class="btn btn-sm btn-primary float-right" [ngbTooltip]="ttContent"
           placement="left" tooltipClass="custom-tooltip" >
           <span class="btn-success">
@@ -32,9 +32,12 @@
           </thead>
           <tbody>
             <tr *ngFor="let speech of speeches">
-              <td>
+             <!--  <td>
                   <a href="{{speech.url}}" target="blanck">{{speech.title}}</a>
-              </td>
+              </td> -->
+              <td>
+               <span> {{speech.title}}</span>
+            </td>
               <td>{{speech.url}}</td>
               <td>{{speech.type?.name}}</td>
               <td>

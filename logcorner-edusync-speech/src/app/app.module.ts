@@ -6,7 +6,7 @@ import { SpeechListComponent } from './speech-list/speech-list.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
 import { MediatorService } from './services/mediator-service';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -19,6 +19,8 @@ import { SpeechService } from './services/speech.service';
 import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { SignalRService } from './services/signalr-service';
+import { HttpErrorInterceptor } from './interceptors/ErrorInterceptor';
+//import { SecretService } from './keyvault';
 
 
  export function MSALInstanceFactory(): IPublicClientApplication {
@@ -71,6 +73,11 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
     },
     AlertService,
     AuthService,

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-deployment-service
+  #namespace: aks
+  labels:
+    version: 1.0.0
+    product: speech-front-end
+    environment: aks
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: speech-front-end
+    env: aks
+---
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: front-end-deployment-ingress
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - kubernetes.agic.com
+    secretName: agic-ingress-tls
+  rules:
+  - host: kubernetes.agic.com
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: front-end-deployment-service
+            port:
+              number: 80
+        pathType: Exact

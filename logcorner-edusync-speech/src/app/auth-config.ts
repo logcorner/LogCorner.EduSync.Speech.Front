@@ -5,12 +5,16 @@
  * in app.module.ts file.
  */
 
+ import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+ import { SecretClient } from "@azure/keyvault-secrets";
 import { LogLevel, Configuration, BrowserCacheLocation } from '@azure/msal-browser';
 import { environment } from 'src/environments/environment';
 
  const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
  
  const tenantName = environment.azureAdB2C.tenantName;
+
+ //const clientId = getSecret("AzureAdB2C--ClientId");
  /**
   * Enter here the user flows and custom policies for your B2C application,
   * To learn more about user flows, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
@@ -90,3 +94,26 @@ export const protectedResources = {
 export const loginRequest = {
   scopes: []
 };
+
+
+function getSecret(secretName: string): string{
+  let vaultName = "logcornervaultfrontend";
+  let url = `https://logcornervaultfrontend.vault.azure.net`;
+  //const client : SecretClient;
+  let credential = new ClientSecretCredential("f12a747a-cddf-4426-96ff-ebe055e215a3","5c4919f0-7d40-40ec-837c-8a6a73c47ed3","~ww7Q~GWr8asRW9oXsSqd52NXLnFNFpiUafoC");
+  let client = new SecretClient(url, credential);
+
+  secretName = "AzureAdB2C--ClientId";
+    let latestSecret :string;
+    client.getSecret(secretName).
+    then((result) =>
+    {
+      console.log(`Latest version of the secret ${secretName}: `, result.value);
+      latestSecret = result.value
+    }).catch ((err) =>
+    {
+      console.log(`Error while getting the secret ${secretName}: `, err);
+      latestSecret = ""
+    });
+    return latestSecret 
+  }

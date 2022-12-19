@@ -6,16 +6,18 @@ resources:
     ref: develop
 jobs:
 - job: Job_1
-  displayName: Agent job 1
+  displayName: Build
   pool: 
     name: LOGCORNER-POOL
   steps:
   - checkout: self
   - task: Npm@1
+    displayName: npm install
     inputs:
       command: 'install'
       workingDir: 'logcorner-edusync-speech'
   - task: Npm@1
+    displayName: npm run build
     inputs:
       command: 'custom'
       workingDir: 'logcorner-edusync-speech'

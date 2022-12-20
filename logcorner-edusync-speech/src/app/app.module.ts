@@ -1,91 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SpeechListComponent } from './speech-list/speech-list.component';
-import { SpeechEditComponent } from './speech-edit/speech-edit.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { SpeechCreateComponent } from './speech-create/speech-create.component';
-import { MediatorService } from './services/mediator-service';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration } from '@azure/msal-angular';
-import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
-import { msalConfig, loginRequest, protectedResources } from './auth-config';
-
-import { ProfileComponent } from './profile/profile.component';
-import { SpeechService } from './services/speech.service';
-import { AlertService } from './services/alert.service';
-import { AuthService } from './services/auth.service';
-import { SignalRService } from './services/signalr-service';
-import { HttpErrorInterceptor } from './interceptors/ErrorInterceptor';
-//import { SecretService } from './keyvault';
-
-
- export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication(msalConfig);
-}
-
-export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
-
-  protectedResourceMap.set(protectedResources.commandApi.endpoint, protectedResources.commandApi.scopes);
-
-  return {
-    interactionType: InteractionType.Redirect,
-    protectedResourceMap
-  };
-}
-
-
- export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return { 
-    interactionType: InteractionType.Redirect,
-    authRequest: loginRequest
-  };
-}
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SpeechListComponent,
-    SpeechEditComponent,
-    SpeechCreateComponent,
-    NavMenuComponent,
-    ProfileComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    MsalModule
-   
-    ],
-  providers: [
-    {
-      provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory
-    },
-    {
-      provide: MSAL_GUARD_CONFIG,
-      useFactory: MSALGuardConfigFactory
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    },
-    AlertService,
-    AuthService,
-    MsalService,
-    MediatorService,
-    SpeechService,
-    SignalRService
-   ],
-   bootstrap: [AppComponent]
+    AppRoutingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

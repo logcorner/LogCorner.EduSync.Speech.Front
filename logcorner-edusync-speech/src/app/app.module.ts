@@ -16,6 +16,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { SpeechListComponent } from './speech-list-component/speech-list.component';
+import { SpeechService } from './services/speech.service';
+import { MediatorService } from './services/mediator-service';
+import { AuthService } from './services/auth.service';
 
 
 
@@ -31,10 +34,13 @@ import { SpeechListComponent } from './speech-list-component/speech-list.compone
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     NgbModule
   ],
   providers: [
-    
+    SpeechService,
+    MediatorService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

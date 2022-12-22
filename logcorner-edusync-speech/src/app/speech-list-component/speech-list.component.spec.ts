@@ -11,7 +11,9 @@ describe('SpeechListComponent', () => {
       declarations: [ SpeechListComponent ]
     })
     .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(SpeechListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

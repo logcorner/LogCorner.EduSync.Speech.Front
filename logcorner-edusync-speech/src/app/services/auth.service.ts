@@ -11,11 +11,11 @@ export class AuthService {
   public authenticated: boolean;
   public user: User;
 
-  constructor( private msalService: MsalService) {
+  constructor( /* private msalService: MsalService */) {
 
   }
   async getToken(method:  string, scopes : string[], query?:string)  {
-    console.log('**AuthService::getToken:isAuthenticationEnabled =',environment.isAuthenticationEnabled);
+    /* console.log('**AuthService::getToken:isAuthenticationEnabled =',environment.isAuthenticationEnabled);
     if(!environment.isAuthenticationEnabled)
     {
       return '';
@@ -40,6 +40,9 @@ export class AuthService {
           });
         }
       });
+      */
+
+    return "";
   }
   
    async setHttpOptions(method :string, scopes : string[],body ?: any) {
@@ -52,7 +55,7 @@ export class AuthService {
       }),
       body
     };
-    return httpOptions;
+    return httpOptions; 
   }
   
  }

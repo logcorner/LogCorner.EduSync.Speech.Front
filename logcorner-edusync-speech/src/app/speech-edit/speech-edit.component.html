@@ -1,0 +1,180 @@
+<div class="container">
+    
+  <div class="card">
+    <div class="card-header">
+        
+    </div>
+  
+    <div class="card-body">
+      <form novalidate
+            (ngSubmit)="saveSpeech()"
+            [formGroup]="speechForm">
+  
+        <!-- Title-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="titleId">Title</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="titleId"
+                   type="text"
+                   placeholder="Title (required)"
+                   formControlName="title"
+                 
+                   [ngClass]="{'is-invalid': (speechForm.get('title')?.touched ||
+                                              speechForm.get('title')?.dirty) &&
+                                              !speechForm.get('title')?.valid }" />
+            <span class="invalid-feedback">
+              <span *ngIf="speechForm.get('title')?.errors?.['required']">
+                 <ngb-alert type="danger"  [dismissible]="false">
+                  <strong>Title</strong> is required.
+                </ngb-alert>  
+              
+              </span>
+              <span *ngIf="speechForm.get('title')?.errors?.['minlength']">
+                 <ngb-alert type="warning" >
+                  The title name must be longer than 3 characters.
+                </ngb-alert>
+              </span>
+              <span *ngIf="speechForm.get('title')?.errors?.['maxlength']">
+                <ngb-alert type="warning" >
+                 The title name must be less than 10 characters.
+               </ngb-alert>
+             </span>
+            </span>
+          </div>
+        </div>
+  
+        <!-- Description -->
+         <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="descriptionId">Description</label>
+          <div class="col-md-8">
+            <textarea  class="form-control"
+                   id="descriptionId"
+                  
+                   placeholder="Description (required)"
+                   formControlName="description"
+                   [ngClass]="{'is-invalid': (speechForm.get('description')?.touched ||
+                                              speechForm.get('description')?.dirty) &&
+                                              !speechForm.get('description')?.valid }" > </textarea>
+            <span class="invalid-feedback">
+              <span *ngIf="speechForm.get('description')?.errors?.['required']">
+               <!--  <ngb-alert type="danger"  [dismissible]="false">
+                  <strong>Description</strong> is required.
+                </ngb-alert> -->
+              
+              </span>
+              <span *ngIf="speechForm.get('description')?.errors?.['minlength']">
+                 <ngb-alert type="warning" >
+                  The Description must be longer than 3 characters.
+                </ngb-alert>
+              </span>
+            </span>
+          </div>
+        </div>
+  
+         <!-- Url-->
+         <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="urlId">Url</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="urlId"
+                   type="text"
+                   placeholder="Url (required)"
+                   formControlName="url"
+                   [ngClass]="{'is-invalid': (speechForm.get('url')?.touched ||
+                                              speechForm.get('url')?.dirty) &&
+                                              !speechForm.get('url')?.valid }" />
+            <span class="invalid-feedback">
+              <span *ngIf="speechForm.get('url')?.errors?.['required']">
+              <!--   <ngb-alert type="danger"  [dismissible]="false">
+                  <strong>Url</strong> is required.
+                </ngb-alert> -->
+              
+              </span>
+              <span *ngIf="speechForm.get('url')?.errors?.['minlength']">
+                 <ngb-alert type="warning" >
+                  The url must be valid.
+                </ngb-alert>
+              </span>
+            
+            </span>
+          </div>
+        </div> 
+  
+      <!-- Type -->
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="typeId">Type</label>
+        <div class="col-md-8">
+        
+          <select class="form-control"
+                id="typeId"
+                formControlName="type"
+                [ngClass]="{'is-invalid': (speechForm.get('type')?.touched ||
+                speechForm.get('type')?.dirty) &&
+                !speechForm.get('type')?.valid }" (change)="onTypeChange()"  >
+        
+                <option [ngValue]="null" disabled>Select a Type ...</option>
+                <option *ngFor="let item of speechTypes" [ngValue]="item">
+                  {{ item.name }}
+                </option>
+  
+        </select>
+          <span class="invalid-feedback">
+            <span *ngIf="speechForm.get('type')?.errors?.['required']">
+             <!--  <ngb-alert type="danger"  [dismissible]="false">
+                <strong>Type</strong> is required.
+              </ngb-alert> -->
+            
+            </span>
+            <span *ngIf="speechForm.get('type')?.errors?.['minlength']">
+               <ngb-alert type="warning" >
+                The Type must be longer than 3 characters.
+              </ngb-alert>
+            </span>
+            <span *ngIf="speechForm.get('type')?.errors?.['maxlength']">
+              <ngb-alert type="warning" >
+               The Type must be less than 10 characters.
+             </ngb-alert>
+           </span>
+          </span>
+        </div>
+      </div> 
+ 
+      <!-- submit -->
+        <div class="form-group row mb-2">
+          <div class="offset-md-2 col-md-4">
+            <button class="btn btn-primary mr-3"
+                    type="submit"
+                    style="width:80px"
+                    [title]="speechForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                    [disabled]="!speechForm.valid">
+              Save
+            </button>
+            <a class="btn btn-secondary" [routerLink]="['/speech']">Cancel</a>
+           
+          </div>
+        </div>
+      </form>
+  
+  
+    </div>
+  </div>
+  <div *ngIf="errorMessage" class="btn btn-danger">
+    {{errorMessage}}
+</div>
+  <br>Dirty: {{ speechForm.dirty }}
+  <br>Touched: {{ speechForm.touched }}
+  <br>Valid: {{ speechForm.valid }}
+  <br>Value: {{ speechForm.value | json }}
+  <br/>title : {{speechForm.get('title')?.errors | json }}
+  <br/>description : {{speechForm.get('description')?.errors | json }}
+  <br/>url : {{speechForm.get('url')?.errors | json }}
+  <br/>type : {{speechForm.get('type')?.errors | json }}
+  <br>&nbsp;
+  </div>
+  
+  

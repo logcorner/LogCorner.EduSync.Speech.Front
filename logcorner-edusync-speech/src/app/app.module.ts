@@ -20,6 +20,7 @@ import { SpeechService } from './services/speech.service';
 import { MediatorService } from './services/mediator-service';
 import { AuthService } from './services/auth.service';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
+import { SpeechEditComponent } from './speech-edit/speech-edit.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { SpeechCreateComponent } from './speech-create/speech-create.component';
     AppComponent,
     NavMenuComponent,
     SpeechListComponent,
-    SpeechCreateComponent
+    SpeechCreateComponent,
+    SpeechEditComponent
   ],
   imports: [
     BrowserModule,

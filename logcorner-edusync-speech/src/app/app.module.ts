@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -19,21 +19,21 @@ import { SpeechListComponent } from './speech-list-component/speech-list.compone
 import { SpeechService } from './services/speech.service';
 import { MediatorService } from './services/mediator-service';
 import { AuthService } from './services/auth.service';
-
-
-
+import { SpeechCreateComponent } from './speech-create/speech-create.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    SpeechListComponent
+    SpeechListComponent,
+    SpeechCreateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgbModule
   ],

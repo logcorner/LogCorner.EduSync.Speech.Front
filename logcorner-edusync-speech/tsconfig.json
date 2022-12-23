@@ -23,6 +23,9 @@
       "ES2022",
       "dom"
     ],
+    "types": [
+      "@angular/localize"
+    ],
     "strictPropertyInitialization": false
   },
   "angularCompilerOptions": {

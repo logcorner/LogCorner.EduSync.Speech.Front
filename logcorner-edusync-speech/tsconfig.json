@@ -27,6 +27,7 @@
       "@angular/localize"
     ],
     "strictPropertyInitialization": false
+    
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

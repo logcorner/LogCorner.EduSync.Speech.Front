@@ -21,7 +21,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
   loginDisplay = false;
 
   constructor(
-    
+    private signalRService : SignalRService
   ) {}
   ngOnDestroy(): void {
     
@@ -30,7 +30,7 @@ export class NavMenuComponent implements OnInit ,OnDestroy {
 
   ngOnInit(): void {
     
-  
+    this.signalRService.StartConnection();
   }
 
   

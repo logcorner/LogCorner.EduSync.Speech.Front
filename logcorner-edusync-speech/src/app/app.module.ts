@@ -21,6 +21,7 @@ import { MediatorService } from './services/mediator-service';
 import { AuthService } from './services/auth.service';
 import { SpeechCreateComponent } from './speech-create/speech-create.component';
 import { SpeechEditComponent } from './speech-edit/speech-edit.component';
+import { SignalRService } from './services/signalr-service';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { SpeechEditComponent } from './speech-edit/speech-edit.component';
   providers: [
     SpeechService,
     MediatorService,
-    AuthService
+    AuthService,
+    SignalRService
   ],
   bootstrap: [AppComponent]
 })

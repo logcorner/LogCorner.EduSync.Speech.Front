@@ -1,37 +1,15 @@
-<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-  <a class="navbar-brand" [routerLink]="['/']">LogCorner Speech</a>
-
-  <div class="collapse navbar-collapse xnavbar-nav xnav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-item nav-link" [routerLink]="['/']" [routerLinkActive]="['link-active']">Home</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-item nav-link" [routerLink]="['/speech']" [routerLinkActive]="['link-active']">speeches</a>
-      </li>
-     
-    
-    </ul>
-  </div>
-  <div>
-    <button *ngIf="!loginDisplay&&isAuthenticationEnabled" class="btn btn-primary btn-large" role="button" (click)="login()">sign in</button>
-
-  </div>
-  <div *ngIf="isAuthenticationEnabled">
-    <ul *ngIf="loginDisplay" class="navbar-nav mr-auto">
-      <li>
-        <a class="nav-item nav-link" [routerLink]="['/profile']" [routerLinkActive]="['link-active']">Profile</a>
-      </li>
-      <li>
-        <button  class="btn btn-primary btn-large" role="button" (click)="logout()">log out</button>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" [routerLink]="['/']"><h2>  LogCorner Speech </h2></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['/speech']" [routerLinkActive]="['link-active']">speeches</a>
       </li>
     </ul>
-    
-     </div>
-</div>
-<div class='card-section'>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</div>
+  </div>
+</nav>
+
+

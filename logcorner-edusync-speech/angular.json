@@ -30,7 +30,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
+              "src/css/styles.scss",
               "src/css/bootstrap.superhero.min.css"
             ],
             "scripts": []

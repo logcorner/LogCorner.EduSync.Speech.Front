@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
 import { environment } from 'src/environments/environment';
+import { CACHEABLE } from '../interceptors/cache.interceptor';
 
 export class TrackerError {
   errorNumber: number;
@@ -21,7 +22,9 @@ export class SpeechService {
 
   
 
-    return this.http.get<SpeechType[]>(url)
+    return this.http.get<SpeechType[]>(url, {
+      context: new HttpContext().set(CACHEABLE, true)
+    })
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
         catchError(err => this.handleError('getSpeechTypes' ,err)));

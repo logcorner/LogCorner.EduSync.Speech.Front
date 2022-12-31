@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
-import { SpeechService } from '../services/speech.service';
+import { SpeechService, TrackerError } from '../services/speech.service';
 
 @Component({
   selector: 'app-speech-edit',
@@ -39,9 +39,9 @@ export class SpeechEditComponent implements OnInit {
       (result) =>
       {
         result.subscribe({
-          next: (value: SpeechType[]) =>
+          next: (value: SpeechType[] | TrackerError) =>
           {
-            this.speechTypes = value
+            this.speechTypes = <SpeechType[]>value
            
           },
           error: err => this.errorMessage = err
@@ -55,9 +55,9 @@ export class SpeechEditComponent implements OnInit {
           (result) =>
           {
             result.subscribe({
-              next: (value: Speech) =>
+              next: (value: Speech | TrackerError) =>
               {
-                this.displaySpeech(value);
+                this.displaySpeech(<Speech>value);
                
               },
               error: err => this.errorMessage = err

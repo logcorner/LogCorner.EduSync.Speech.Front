@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Events } from '../models/Events';
 import { Speech } from '../models/speech-model';
 import { MediatorService } from '../services/mediator-service';
-import { SpeechService } from '../services/speech.service';
+import { SpeechService, TrackerError } from '../services/speech.service';
 @Component({
   selector: 'app-speech-list',
   templateUrl: './speech-list.component.html',
@@ -36,13 +36,13 @@ export class SpeechListComponent implements OnInit {
       (result) =>
       {
         result.subscribe({
-          next: (value: Speech[]) =>
+          next: (value: Speech[] | TrackerError)  =>
           {
-            this.speeches = value;
+            this.speeches = <Speech[]>value;
           },
-          error: err => 
+          error: (err : TrackerError)=> 
           {
-            this.errorMessage = err;
+            this.errorMessage = err.friendlyMessage;
             console.log('**SpeechListComponent::getSpeeches:this.errorMessage', this.errorMessage);
           }
         });

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
-import { SpeechService } from '../services/speech.service';
+import { SpeechService, TrackerError } from '../services/speech.service';
 
 @Component({
   selector: 'app-speech-create',
@@ -35,9 +35,9 @@ export class SpeechCreateComponent implements OnInit {
       (result) =>
       {
         result.subscribe({
-          next: (value: SpeechType[]) =>
+          next: (value: SpeechType[] | TrackerError) =>
           {
-            this.speechTypes = value
+            this.speechTypes = <SpeechType[]>value
             console.log('**SpeechEditComponent::getSpeechTypes:SpeechType - ', value);
           },
           error: err => this.errorMessage = err

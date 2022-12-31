@@ -1,68 +1,67 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Speech } from '../models/speech-model';
 import { SpeechType } from '../models/SpeechType';
-import { ErrorCode } from '../models/Error';
-import { AuthService } from './auth.service';
-import { protectedResources } from '../auth-config';
+import { environment } from 'src/environments/environment';
+
+export class TrackerError {
+  errorNumber: number;
+  message: string;
+  friendlyMessage: string;
+}
 
 @Injectable()
 export class SpeechService {
-  constructor(private http: HttpClient,  private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
- async getSpeechTypes(): Promise<Observable<SpeechType[]>> {
-    const url = `${protectedResources.queryApi.endpoint}/speech/types`;
+ async getSpeechTypes(): Promise<Observable<SpeechType[] | TrackerError>> {
+    const url = `${environment.queryAPI}/speech/types`;
 
-  const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
+  
 
-    return this.http.get<SpeechType[]>(url,httpOptions)
+    return this.http.get<SpeechType[]>(url)
       .pipe(
         tap(data => console.log('getSpeechTypes: ' + JSON.stringify(data))),
-        catchError(this.handleError<SpeechType[]>('getSpeechTypes' )));
+        catchError(err => this.handleError('getSpeechTypes' ,err)));
    }
 
   
 
-  async getSpeeches(): Promise< Observable<Speech[]>> {
-  console.log('this.http.options', this.http.options);
-  console.log('url', `${protectedResources.queryApi.endpoint}/speech`);
-
-
-const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
-  return this.http.get<Speech[]>(`${protectedResources.queryApi.endpoint}/speech`,httpOptions)
-      .pipe(
-        tap(speeches => console.log(`fetched speeches`, speeches)));/*,
-        catchError(this.handleError<Speech[]>('getSpeeches')));*/
-
+  async getSpeeches(): Promise< Observable<Speech[] | TrackerError>> {
+    return this.http.get<Speech[]>(`${environment.queryAPI}/speech`)
+        .pipe(
+          tap(speeches => console.log(`fetched speeches`, speeches)) ,
+          catchError(err => this.handleError(`getSpeeches (${environment.queryAPI}/speech)`, err))
+          );
   }
 
- async getSpeech(id: string): Promise< Observable<Speech>> {
+ async getSpeech(id: string): Promise< Observable<Speech | TrackerError>> {
 
-    const httpOptions = await this.authService.setHttpOptions("GET",protectedResources.queryApi.scopes);
-    return this.http.get<Speech>(`${protectedResources.queryApi.endpoint}/speech/${id}`,httpOptions)
+   
+    return this.http.get<Speech>(`${environment.queryAPI}/speech/${id}`)
       .pipe(
         tap(speeches => console.log(`fetched speech`, id, speeches)),
-        catchError(this.handleError<Speech>('getSpeech' )));
+        catchError(err => this.handleError('getSpeech',err )));
   }
 
  async updateSpeech(speech: Speech): Promise< Observable<any>> {
 
-    const httpOptions = await this.authService.setHttpOptions("PUT",protectedResources.commandApi.scopes);
-    return this.http.put(`${protectedResources.commandApi.endpoint}/speech`, speech, httpOptions)
+   
+    return this.http.put(`${ environment.commandAPI}/speech`, speech)
     .pipe(
       tap(result => console.log(`update speech`, result)),
-      catchError(this.handleError('updateSpeech' )));
+      catchError(err => this.handleError('updateSpeech' ,err)));
    }
 
  async createSpeech(speech: Speech): Promise< Observable<any>> {
 
-    const httpOptions = await this.authService.setHttpOptions("POST",protectedResources.commandApi.scopes);
-       return this.http.post(`${protectedResources.commandApi.endpoint}/speech`, speech,httpOptions)
+   
+       return this.http.post(`${ environment.commandAPI}/speech`, speech)
        .pipe(
         tap(result => console.log(`create speech`, result)),
-        catchError(this.handleError('createSpeech' )));
+        catchError(err => this.handleError('createSpeech' ,err)));
   }
 
  async deleteSpeech(id: string, version: number): Promise< Observable<any>>{
@@ -72,38 +71,19 @@ const httpOptions = await this.authService.setHttpOptions("GET",protectedResourc
       version
     };
 
-    const httpOptions = await this.authService.setHttpOptions("DELETE",protectedResources.commandApi.scopes,body);
-    return this.http.delete(`${protectedResources.commandApi.endpoint}/speech/`, httpOptions)
+   
+    return this.http.delete(`${ environment.commandAPI}/speech/`)
       .pipe(
         tap(result => console.log(`delete speech`, id, result)),
-        catchError(this.handleError('deleteSpeech' )));
+        catchError(err => this.handleError('deleteSpeech',err)));
   }
 
-  private handleError<T>(operation = 'operation'): any  {
-    return (httpErrorResponse: HttpErrorResponse): Observable<T> => {
-      console.error(HttpErrorResponse);
-      console.log(`${operation} failed - message: ${httpErrorResponse.message}`);
-
-      console.log(`${operation} failed - httpErrorResponse:`, httpErrorResponse);
-      let result: ErrorCode;
-      if (httpErrorResponse.error === null)
-      {
-        result =
-        {
-          errorCode : httpErrorResponse.status,
-          errorMessage : httpErrorResponse.message,
-          error : JSON.stringify(httpErrorResponse)
-        };
-      }
-      else {
-        result =
-        {
-          errorCode : httpErrorResponse.error?.errorCode,
-          errorMessage : httpErrorResponse.error.message,
-          error : JSON.stringify(httpErrorResponse.error)
-        };
-    }
-      throw  result;
-    };
+  private handleError( name: string,error: HttpErrorResponse): Observable<TrackerError> {
+    console.log(`error `, error)
+    let dataError = new TrackerError();
+    dataError.errorNumber = error.status;
+    dataError.message = error.statusText;
+    dataError.friendlyMessage = `An error occurred while calling ${name}`;
+    return throwError(dataError);    
   }
 }

@@ -14,7 +14,7 @@ export class CacheInterceptor implements HttpInterceptor {
   constructor(private cacheService: HttpCacheService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    console.log(`CacheInterceptor - ${req.url}`);
     // only cache requests configured to be cacheable
     if (!req.context.get(CACHEABLE)) {
       return next.handle(req);

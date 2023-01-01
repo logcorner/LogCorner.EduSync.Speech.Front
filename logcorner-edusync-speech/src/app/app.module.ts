@@ -25,6 +25,7 @@ import { SignalRService } from './services/signalr-service';
 import { AddHeaderInterceptor } from './interceptors/add-header.interceptor';
 import { LogResponseInterceptor } from './interceptors/log-response.interceptor';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { CacheInterceptor } from './interceptors/cache.interceptor';
     SignalRService,
     { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LogResponseInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

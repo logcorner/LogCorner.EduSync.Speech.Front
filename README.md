@@ -34,3 +34,6 @@ Package                      Version
 
 
 C:\Users\tocan>
+
+https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/
+https://timdeschryver.dev/blog/adding-opentelemetry-to-an-angular-application
